@@ -17,21 +17,8 @@
 *.zip
 *.tar.gz
 *.rar
-
+*.iml
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 .idea/
-basic-sample-aligorithm/basic-sample-aligorithm.iml
-basic-sample-aligorithm/src/
-basic-sample-collection/basic-sample-collection.iml
-basic-sample-collection/src/
-basic-sample-io/basic-sample-io.iml
-basic-sample-io/src/
-basic-sample-jcu/basic-sample-jcu.iml
-basic-sample-jcu/src/
-basic-sample-serializable/basic-sample-serializable.iml
-basic-sample-serializable/src/
-basic-sample-socket/basic-sample-socket.iml
-basic-sample-socket/src/
-basic-sample-thread/basic-sample-thread.iml
-basic-sample-thread/src/
+

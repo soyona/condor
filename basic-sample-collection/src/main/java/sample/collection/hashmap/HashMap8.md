@@ -326,10 +326,10 @@
     
         /* ---------------- Static utilities -------------- */
     
-##static final int hash(Object key)
-###0. 重新计算key的哈希
-###1. key.hashCode()，对象的内部地址转换成的整型数字
-###2. h>>> 16 //右移16位，取高位
+##  static final int hash(Object key)
+### 0. 重新计算key的哈希
+### 1. key.hashCode()，对象的内部地址转换成的整型数字
+### 2. h>>> 16 //右移16位，取高位
     
         /**
         * Computes key.hashCode() and spreads (XORs) higher bits of hash
@@ -394,8 +394,8 @@
             return (x == null || x.getClass() != kc ? 0 :
                     ((Comparable)k).compareTo(x));
         }
-###int tableSizeFor(int cap)
-####保证返回2的幂   
+### int tableSizeFor(int cap)
+#### 保证返回2的幂   
         /**
          * Returns a power of two size for the given target capacity.
          */
@@ -411,7 +411,7 @@
 属性
 ---    
         /* ---------------- Fields -------------- */
-###table，Node数组，大小：2的幂   
+### table，Node数组，大小：2的幂   
         /**
          * The table, initialized on first use, and resized as
          * necessary. When allocated, length is always a power of two.
@@ -421,18 +421,18 @@
          *
          */
         transient Node<K,V>[] table;
-###entrySet，持有缓存的entry集合    
+### entrySet，持有缓存的entry集合    
         /**
          * Holds cached entrySet(). Note that AbstractMap fields are used
          * for keySet() and values().
          */
         transient Set<Entry<K,V>> entrySet;
-###size，Map中k-v映射个数    
+### size，Map中k-v映射个数    
         /**
          * The number of key-value mappings contained in this map.
          */
         transient int size;
-###modCount
+### modCount
 #### map中元素个数的改变，由put/remove方法操作引起，用于迭代器的快速失败    
         /**
          * The number of times this HashMap has been structurally modified
@@ -442,9 +442,9 @@
          * the HashMap fail-fast.  (See ConcurrentModificationException).
          */
         transient int modCount;
-###变量threshold，下次进行扩容的 size 大小 ，
-###第一次初始化DEFAULT_INITIAL_CAPACITY=16，加载因子=0.75，threshold=16*0.75=12 
-###如果table 数组还没有申请空间，该值为 初始的数组容量 
+### 变量threshold，下次进行扩容的 size 大小 ，
+### 第一次初始化DEFAULT_INITIAL_CAPACITY=16，加载因子=0.75，threshold=16*0.75=12 
+### 如果table 数组还没有申请空间，该值为 初始的数组容量 
         /**
          * The next size value at which to resize (capacity * load factor).
          *
@@ -455,7 +455,7 @@
         // field holds the initial array capacity, or zero signifying
         // DEFAULT_INITIAL_CAPACITY.)
         int threshold;
-###loadFactor,哈希表的加载因子    
+### loadFactor,哈希表的加载因子    
         /**
          * The load factor for the hash table.
          *
@@ -465,7 +465,7 @@
 公开操作
 ---    
         /* ---------------- Public operations -------------- */
-###有参构造，初始化容量，加载因子
+### 有参构造，初始化容量，加载因子
 ###    
         /**
          * Constructs an empty <tt>HashMap</tt> with the specified initial
@@ -488,7 +488,7 @@
             this.loadFactor = loadFactor;
             this.threshold = tableSizeFor(initialCapacity);
         }
-###指定容量构造    
+### 指定容量构造    
         /**
          * Constructs an empty <tt>HashMap</tt> with the specified initial
          * capacity and the default load factor (0.75).
@@ -499,7 +499,7 @@
         public HashMap(int initialCapacity) {
             this(initialCapacity, DEFAULT_LOAD_FACTOR);
         }
-###默认无参构造，加载因子为DEFAULT_LOAD_FACTOR=0.75   
+### 默认无参构造，加载因子为DEFAULT_LOAD_FACTOR=0.75   
         /**
          * Constructs an empty <tt>HashMap</tt> with the default initial capacity
          * (16) and the default load factor (0.75).
@@ -548,7 +548,7 @@
                 }
             }
         }
-##size()
+## size()
 ###    
         /**
          * Returns the number of key-value mappings in this map.
@@ -558,7 +558,7 @@
         public int size() {
             return size;
         }
-##isEmpty()
+## isEmpty()
 ###    
         /**
          * Returns <tt>true</tt> if this map contains no key-value mappings.
@@ -568,8 +568,8 @@
         public boolean isEmpty() {
             return size == 0;
         }
-##get(Object key) 
-###实现方法：getNode(int hash,Object key) 
+## get(Object key) 
+### 实现方法：getNode(int hash,Object key) 
         /**
          * Returns the value to which the specified key is mapped,
          * or {@code null} if this map contains no mapping for the key.
@@ -603,21 +603,21 @@ getNode(int hash,Object key)
          */
         final Node<K,V> getNode(int hash, Object key) {
             Node<K,V>[] tab; Node<K,V> first, e; int n; K k;
-####1. 确定数组下标   tab[(n - 1) & hash] 掩码 位与          
+####    1. 确定数组下标   tab[(n - 1) & hash] 掩码 位与          
             if ((tab = table) != null && (n = tab.length) > 0 &&
                 (first = tab[(n - 1) & hash]) != null) {
-####1.0 头节点=first = tab[(n - 1) & hash] ，哈希值相等并且 key是同一个对象或者key equals相等，返回第一个节点               
+####    1.0 头节点=first = tab[(n - 1) & hash] ，哈希值相等并且 key是同一个对象或者key equals相等，返回第一个节点               
                 if (first.hash == hash && // always check first node
                     ((k = first.key) == key || (key != null && key.equals(k))))
                     return first;
-####1.1 头节点不相等，遍历后驱节点，e=后驱节点                    
+####    1.1 头节点不相等，遍历后驱节点，e=后驱节点                    
                 if ((e = first.next) != null) {
-#####1.1.1 如果头节点是TreeNode，getTreeNode(hash, key)，从红黑树中查找该key               
+#####   1.1.1 如果头节点是TreeNode，getTreeNode(hash, key)，从红黑树中查找该key               
                     if (first instanceof TreeNode)
                         return ((TreeNode<K,V>)first).getTreeNode(hash, key);
-#####1.2.1 如果头节点不是TreeNode，链表节点，遍历链表节点                       
+#####   1.2.1 如果头节点不是TreeNode，链表节点，遍历链表节点                       
                     do {
-#####1.2.3 如果相等返回 e                    
+#####   1.2.3 如果相等返回 e                    
                         if (e.hash == hash &&
                             ((k = e.key) == key || (key != null && key.equals(k))))
                             return e;
@@ -628,7 +628,7 @@ getNode(int hash,Object key)
         }
 containsKey(Object key)
 ---
-###实现方法：getNode(hash(key),key)    
+### 实现方法：getNode(hash(key),key)    
         /**
          * Returns <tt>true</tt> if this map contains a mapping for the
          * specified key.
@@ -675,11 +675,11 @@ public V put(K key, V value)
             Node<K,V>[] tab; Node<K,V> p; int n, i;
 ##### 1.判断table数组是否为null 或者 table的长度是否为0 
             if ((tab = table) == null || (n = tab.length) == 0)
-#####1.1 扩容数组并赋值给tab，新数组的长度赋值给n
+#####   1.1 扩容数组并赋值给tab，新数组的长度赋值给n
                 n = (tab = resize()).length;
-#####2.判断数组在下标为i=(n - 1) & hash 处的Node节点是否为null             
+#####   2.判断数组在下标为i=(n - 1) & hash 处的Node节点是否为null             
             if ((p = tab[i = (n - 1) & hash]) == null)
-######2.0 为什么 采用掩码 和 位& 运算： i = (n - 1) & hash    
+######  2.0 为什么 采用掩码 和 位& 运算： i = (n - 1) & hash    
     数组长度n===2的幂
     n=2的3次幂：二进制表示为   1   0   0   0
     n=2的4次幂：二进制表示为   1   0   0   0   0
@@ -696,57 +696,57 @@ public V put(K key, V value)
     比如：77的二进制表示为：1001101，与2的3次幂-1 做&运算的结果二进制表示为：101，（十进制：5）
     结论1：任何一个数字与2的3次幂-1 做&运算的结果的取值范围是：000~111，（十进制：0~7），永远超不过2的3次幂
     结论2：设数组长度为2的n次幂，有整型数字x，那么，通过掩码&运算：（2的n次幂-1）& x 总能得到合法的数组下标
-######2.1 如果为null，创建节点newNode(hash, key, value, null) 并赋值给tab[i]          
+######  2.1 如果为null，创建节点newNode(hash, key, value, null) 并赋值给tab[i]          
                 tab[i] = newNode(hash, key, value, null);
-#####3. 如果p=tab[i = (n - 1) & hash]) != null
+#####   3. 如果p=tab[i = (n - 1) & hash]) != null
             else {
-######3.0 判断p节点 是否与新增值相同，如果哈希相同并且节点key相同，声明一个新引用e指向p节点
+######  3.0 判断p节点 是否与新增值相同，如果哈希相同并且节点key相同，声明一个新引用e指向p节点
                 Node<K,V> e; K k;
                 if (p.hash == hash &&
                     ((k = p.key) == key || (key != null && key.equals(k))))
                     e = p;
-######3.1 如果p节点是TreeNode，插入树节点 putTreeVal(this, tab, hash, key, value)                    
+######  3.1 如果p节点是TreeNode，插入树节点 putTreeVal(this, tab, hash, key, value)                    
                 else if (p instanceof TreeNode)
                     e = ((TreeNode<K,V>)p).putTreeVal(this, tab, hash, key, value);
-######3.2 如果p节点不是TreeNode，那么，是链表，循环链表节点进行判断                   
+######  3.2 如果p节点不是TreeNode，那么，是链表，循环链表节点进行判断                   
                 else {
                     for (int binCount = 0; ; ++binCount) {
                         if ((e = p.next) == null) {
-######3.3 如果p.next==null，创建新节点newNode(hash, key, value, null)，作为p的后继节点，变量e指向p.next
+######  3.3 如果p.next==null，创建新节点newNode(hash, key, value, null)，作为p的后继节点，变量e指向p.next
                             p.next = newNode(hash, key, value, null);
-######3.4 TREEIFY_THRESHOLD=8，链表转换成红黑树                            
+######  3.4 TREEIFY_THRESHOLD=8，链表转换成红黑树                            
                             if (binCount >= TREEIFY_THRESHOLD - 1) // -1 for 1st
                                 treeifyBin(tab, hash);
                             break;
                         }
-######3.5 如果e = p.next 与新增节点哈希 key相同，跳出循环                   
+######  3.5 如果e = p.next 与新增节点哈希 key相同，跳出循环                   
                         if (e.hash == hash &&
                             ((k = e.key) == key || (key != null && key.equals(k))))
                             break;
-######3.6 如果p.next 即不为空，也不与新增节点相同，继续把p节点变量后移: p=p.next ,或者p=e                           
+######  3.6 如果p.next 即不为空，也不与新增节点相同，继续把p节点变量后移: p=p.next ,或者p=e                           
                         p = e;
                     }
                 }
-#####4. 如果原有节点的key与 新key相同，如何处理 新值  与 旧值              
+#####   4. 如果原有节点的key与 新key相同，如何处理 新值  与 旧值              
                 if (e != null) { // existing mapping for key
                     V oldValue = e.value;
-#####4.1 新值覆盖旧值得情况：onlyIfAbsent为false或者旧值为null                                        
+#####   4.1 新值覆盖旧值得情况：onlyIfAbsent为false或者旧值为null                                        
                     if (!onlyIfAbsent || oldValue == null)
                         e.value = value;
                     afterNodeAccess(e);
                     return oldValue;
                 }
             }
-#####5.修改次数 transient int modCount，指整个HashMap结构发生改变的次数，            
+#####   5.修改次数 transient int modCount，指整个HashMap结构发生改变的次数，            
             ++modCount;
-#####6. threshold 扩容阈值判断           
+#####   6. threshold 扩容阈值判断           
             if (++size > threshold)
                 resize();
             afterNodeInsertion(evict);
             return null;
         }
-###final Node<K,V>[] resize()
-#####初始化 或者 扩容    
+### final Node<K,V>[] resize()
+#####   初始化 或者 扩容    
         /**
          * Initializes or doubles table size.  If null, allocates in
          * accord with initial capacity target held in field threshold.
@@ -757,7 +757,7 @@ public V put(K key, V value)
          * @return the table
          */
         final Node<K,V>[] resize() {
-####1.扩容时，确定 oldThr,oldThr,newCap, newThr           
+####    1.扩容时，确定 oldThr,oldThr,newCap, newThr           
             Node<K,V>[] oldTab = table;
             int oldCap = (oldTab == null) ? 0 : oldTab.length;
             int oldThr = threshold;
@@ -767,7 +767,7 @@ public V put(K key, V value)
                     threshold = Integer.MAX_VALUE;
                     return oldTab;
                 }
-#####1.1 扩容时，新的数组大小等于原数组的2倍，新的newThr 等于thr的2倍：newCap= oldCap << 1; newThr = oldThre << 1 ;                
+#####   1.1 扩容时，新的数组大小等于原数组的2倍，新的newThr 等于thr的2倍：newCap= oldCap << 1; newThr = oldThre << 1 ;                
                 else if ((newCap = oldCap << 1) < MAXIMUM_CAPACITY &&
                          oldCap >= DEFAULT_INITIAL_CAPACITY)
                     newThr = oldThr << 1; // double threshold
@@ -775,7 +775,7 @@ public V put(K key, V value)
             else if (oldThr > 0) // initial capacity was placed in threshold
                 newCap = oldThr;
             else {               // zero initial threshold signifies using defaults
-#####1.2 初始化h时 DEFAULT_INITIAL_CAPACITY=16,newThre=0.75*16 = 12       
+#####   1.2 初始化h时 DEFAULT_INITIAL_CAPACITY=16,newThre=0.75*16 = 12       
                 newCap = DEFAULT_INITIAL_CAPACITY;
                 newThr = (int)(DEFAULT_LOAD_FACTOR * DEFAULT_INITIAL_CAPACITY);
             }
@@ -785,25 +785,25 @@ public V put(K key, V value)
                           (int)ft : Integer.MAX_VALUE);
             }
             threshold = newThr;
-#####2. 创建数组     (Node<K,V>[])new Node[newCap]       
+#####   2. 创建数组     (Node<K,V>[])new Node[newCap]       
             @SuppressWarnings({"rawtypes","unchecked"})
                 Node<K,V>[] newTab = (Node<K,V>[])new Node[newCap];
             table = newTab;
-#####3. 迁移元素            
+#####   3. 迁移元素            
             if (oldTab != null) {
-#####3.1 遍历旧oldTab 数组，在每个数组中 遍历链表节点            
+#####   3.1 遍历旧oldTab 数组，在每个数组中 遍历链表节点            
                 for (int j = 0; j < oldCap; ++j) {
                     Node<K,V> e;
                     if ((e = oldTab[j]) != null) {
-#####3.2 旧引用置空，变量e指向旧元素                    
+#####   3.2 旧引用置空，变量e指向旧元素                    
                         oldTab[j] = null;
-#####3.2 如果旧元素的next引用为null，即旧表仅有一个元素，e赋值给新表                        
+#####   3.2 如果旧元素的next引用为null，即旧表仅有一个元素，e赋值给新表                        
                         if (e.next == null)
                             newTab[e.hash & (newCap - 1)] = e;
-#####3.3 如果e是树节点，加入》》》》》》                           
+#####   3.3 如果e是树节点，加入》》》》》》                           
                         else if (e instanceof TreeNode)
                             ((TreeNode<K,V>)e).split(this, newTab, j, oldCap);
-#####3.4 链表，根据 (e.hash & oldCap) == 0 把链表节点分组，两组，为什么采用这种分组方法？                         
+#####   3.4 链表，根据 (e.hash & oldCap) == 0 把链表节点分组，两组，为什么采用这种分组方法？                         
                         else { // preserve order
                             Node<K,V> loHead = null, loTail = null;
                             Node<K,V> hiHead = null, hiTail = null;
@@ -825,7 +825,7 @@ public V put(K key, V value)
                                     hiTail = e;
                                 }
                             } while ((e = next) != null);
-#####3.5 分组后的两个链表 loHead与hihead ，分别放在位置newTab[j] 与 newTab[j + oldCap]中                          
+#####   3.5 分组后的两个链表 loHead与hihead ，分别放在位置newTab[j] 与 newTab[j + oldCap]中                          
                             if (loTail != null) {
                                 loTail.next = null;
                                 newTab[j] = loHead;
@@ -840,35 +840,35 @@ public V put(K key, V value)
             }
             return newTab;
         }
-###treeifyBin(Node<K,V>[] tab, int hash)，给定哈希值得桶，替换该桶中所有的链表节点
+### treeifyBin(Node<K,V>[] tab, int hash)，给定哈希值得桶，替换该桶中所有的链表节点
         /**
          * Replaces all linked nodes in bin at index for given hash unless
          * table is too small, in which case resizes instead.
          */
         final void treeifyBin(Node<K,V>[] tab, int hash) {
             int n, index; Node<K,V> e;
-####1. 如果数组==null 或者 数组大小 < MIN_TREEIFY_CAPACITY(=64) ,进行扩容          
+####    1. 如果数组==null 或者 数组大小 < MIN_TREEIFY_CAPACITY(=64) ,进行扩容          
             if (tab == null || (n = tab.length) < MIN_TREEIFY_CAPACITY)
                 resize();
-####2.  否则，数组大小>MIN_TREEIFY_CAPACITY(64),需要树化，  tab[index = (n - 1) & hash] 指定hash数组下标e != null,指链表的头结点不为null，遍历链表转换红黑树               
+####    2.  否则，数组大小>MIN_TREEIFY_CAPACITY(64),需要树化，  tab[index = (n - 1) & hash] 指定hash数组下标e != null,指链表的头结点不为null，遍历链表转换红黑树               
             else if ((e = tab[index = (n - 1) & hash]) != null) {
-####2.1     定义红黑树的头尾节点引用
+####    2.1     定义红黑树的头尾节点引用
                 TreeNode<K,V> hd = null, tl = null;
                 do {
-####2.2                     
+####    2.2                     
                     TreeNode<K,V> p = replacementTreeNode(e, null);
-####2.3 尾节点==null，头节点指向p，(确定头节点)                   
+####    2.3 尾节点==null，头节点指向p，(确定头节点)                   
                     if (tl == null)
                         hd = p;
-####2.4 尾节点!=null，p的前驱指向尾节点，尾节点的后驱节点指向p                        
+####    2.4 尾节点!=null，p的前驱指向尾节点，尾节点的后驱节点指向p                        
                     else {
                         p.prev = tl;
                         tl.next = p;
                     }
-####2.5 尾节点指向p                    
+####    2.5 尾节点指向p                    
                     tl = p;
                 } while ((e = e.next) != null);
-####3.  tab[index] 头节点  指向 红黑树的 头节点                
+####    3.  tab[index] 头节点  指向 红黑树的 头节点                
                 if ((tab[index] = hd) != null)
                     hd.treeify(tab);
             }
@@ -1509,12 +1509,12 @@ public V put(K key, V value)
         abstract class HashIterator {
             Node<K,V> next;        // next entry to return
             Node<K,V> current;     // current entry
-####expectedModCount属性 期望modCount，            
+####    expectedModCount属性 期望modCount，            
             int expectedModCount;  // for fast-fail
             int index;             // current slot
     
             HashIterator() {
-####expectedModCount，构造发生时的 modCount,后续的put/remove会引起 expectedModCount != modCount(for fast-fail)          
+####    expectedModCount，构造发生时的 modCount,后续的put/remove会引起 expectedModCount != modCount(for fast-fail)          
                 expectedModCount = modCount;
                 Node<K,V>[] t = table;
                 current = next = null;
@@ -1545,27 +1545,27 @@ public V put(K key, V value)
                 Node<K,V> p = current;
                 if (p == null)
                     throw new IllegalStateException();
-#####如果容器的modCount 和 期望值不相等 抛出异常                    
+#####   如果容器的modCount 和 期望值不相等 抛出异常                    
                 if (modCount != expectedModCount)
                     throw new ConcurrentModificationException();
                 current = null;
                 K key = p.key;
                 removeNode(hash(key), key, null, false, false);
-#####删除节点后modCount被更新，expectedModCount同时被更新                
+#####   删除节点后modCount被更新，expectedModCount同时被更新                
                 expectedModCount = modCount;
             }
         }
-###迭代器 - KeyIterator   
+### 迭代器 - KeyIterator   
         final class KeyIterator extends HashIterator
             implements Iterator<K> {
             public final K next() { return nextNode().key; }
         }
-###迭代器 - ValueIterator    
+### 迭代器 - ValueIterator    
         final class ValueIterator extends HashIterator
             implements Iterator<V> {
             public final V next() { return nextNode().value; }
         }
-###迭代器 - EntryIterator    
+### 迭代器 - EntryIterator    
         final class EntryIterator extends HashIterator
             implements Iterator<Entry<K,V>> {
             public final Entry<K,V> next() { return nextNode(); }
@@ -1941,8 +1941,8 @@ public V put(K key, V value)
                     assert checkInvariants(root);
                 }
             }
-###find(int h, Object k, Class<?> kc)   红黑树查找节点，从root开始
-####该树有序，折半查找，    
+### find(int h, Object k, Class<?> kc)   红黑树查找节点，从root开始
+####    该树有序，折半查找，    
             /**
              * Finds the node starting at root p with the given hash and key.
              * The kc argument caches comparableClassFor(key) upon first use
@@ -1952,13 +1952,13 @@ public V put(K key, V value)
                 TreeNode<K,V> p = this;
                 do {
                     int ph, dir; K pk;
-#####pl 左子树，pr 右子树                    
+#####   pl 左子树，pr 右子树                    
                     TreeNode<K,V> pl = p.left, pr = p.right, q;
                     if ((ph = p.hash) > h)
                         p = pl;
                     else if (ph < h)
                         p = pr;
-#####如果p节点 key == k 或者 k equals p.key，返回p                        
+#####   如果p节点 key == k 或者 k equals p.key，返回p                        
                     else if ((pk = p.key) == k || (k != null && k.equals(pk)))
                         return p;
                     else if (pl == null)
@@ -1969,7 +1969,7 @@ public V put(K key, V value)
                               (kc = comparableClassFor(k)) != null) &&
                              (dir = compareComparables(kc, k, pk)) != 0)
                         p = (dir < 0) ? pl : pr;
-#####递归查找                        
+#####   递归查找                        
                     else if ((q = pr.find(h, k, kc)) != null)
                         return q;
                     else
@@ -1978,8 +1978,8 @@ public V put(K key, V value)
                 return null;
             }
 ### getTreeNode(int h, Object k)
-####查找根节点
-####实现：find(h, k, null)   
+####    查找根节点
+####    实现：find(h, k, null)   
             /**
              * Calls find for root node.
              */
@@ -2003,7 +2003,7 @@ public V put(K key, V value)
                          -1 : 1);
                 return d;
             }
-###形成树，设置红黑树的属性值    
+### 形成树，设置红黑树的属性值    
             /**
              * Forms tree of the nodes linked from this node.
              * @return root of tree
@@ -2013,7 +2013,7 @@ public V put(K key, V value)
                 for (TreeNode<K,V> x = this, next; x != null; x = next) {
                     next = (TreeNode<K,V>)x.next;
                     x.left = x.right = null;
-####1. 确定根节点                    
+####    1. 确定根节点                    
                     if (root == null) { 
                         x.parent = null;
                         x.red = false;
@@ -2067,7 +2067,7 @@ public V put(K key, V value)
                 }
                 return hd;
             }
-###putTreeVal(HashMap<K,V> map, Node<K,V>[] tab,int h, K k, V v)   红黑树版的putVal    
+### putTreeVal(HashMap<K,V> map, Node<K,V>[] tab,int h, K k, V v)   红黑树版的putVal    
             /**
              * Tree version of putVal.
              */
@@ -2076,7 +2076,7 @@ public V put(K key, V value)
                 Class<?> kc = null;
                 boolean searched = false;
                 TreeNode<K,V> root = (parent != null) ? root() : this;
-####1. 根节点开始遍历                
+####    1. 根节点开始遍历                
                 for (TreeNode<K,V> p = root;;) {
                     int dir, ph; K pk;
                     if ((ph = p.hash) > h)

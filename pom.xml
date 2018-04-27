@@ -21,6 +21,7 @@
         <module>basic-sample-bit-operation</module>
         <module>basic-sample-data-structures-algorithm</module>
         <module>basic-sample-reflect</module>
+        <module>basic-sample-classloader</module>
     </modules>
 
 </project>

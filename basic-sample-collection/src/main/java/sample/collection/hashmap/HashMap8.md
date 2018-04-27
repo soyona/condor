@@ -443,8 +443,8 @@
          */
         transient int modCount;
 ### 变量threshold，下次进行扩容的 size 大小 ，
-### 第一次初始化DEFAULT_INITIAL_CAPACITY=16，加载因子=0.75，threshold=16*0.75=12 
-### 如果table 数组还没有申请空间，该值为 初始的数组容量 
+#### 第一次初始化DEFAULT_INITIAL_CAPACITY=16，加载因子=0.75，threshold=16*0.75=12 
+#### 如果table 数组还没有申请空间，该值为 初始的数组容量 
         /**
          * The next size value at which to resize (capacity * load factor).
          *
@@ -568,8 +568,8 @@
         public boolean isEmpty() {
             return size == 0;
         }
-## get(Object key) 
-### 实现方法：getNode(int hash,Object key) 
+### get(Object key) 
+#### 实现方法：getNode(int hash,Object key) 
         /**
          * Returns the value to which the specified key is mapped,
          * or {@code null} if this map contains no mapping for the key.
@@ -593,7 +593,7 @@
         }
 getNode(int hash,Object key) 
 ---
-###具体实现   
+### 具体实现   
         /**
          * Implements Map.get and related methods
          *

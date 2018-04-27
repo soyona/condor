@@ -231,19 +231,19 @@
          * The concurrent-programming-like SSA-based coding style helps
          * avoid aliasing errors amid all of the twisty pointer operations.
          */
-###DEFAULT_INITIAL_CAPACITY 默认的初始化容量16，2的幂，   
+### DEFAULT_INITIAL_CAPACITY 默认的初始化容量16，2的幂，   
         /**
          * The default initial capacity - MUST be a power of two.
          */
         static final int DEFAULT_INITIAL_CAPACITY = 1 << 4; // aka 16
-###容器的最大容量 1 << 30     
+### 容器的最大容量 1 << 30     
         /**
          * The maximum capacity, used if a higher value is implicitly specified
          * by either of the constructors with arguments.
          * MUST be a power of two <= 1<<30.
          */
         static final int MAXIMUM_CAPACITY = 1 << 30;
-###默认的加载因子，构造器中没有指定的情况    
+### 默认的加载因子，构造器中没有指定的情况    
         /**
          * The load factor used when none specified in constructor.
          */
@@ -268,8 +268,8 @@
          * most 6 to mesh with shrinkage detection under removal.
          */
         static final int UNTREEIFY_THRESHOLD = 6;
-####容器转化为树的最小容量，当整个哈希表的容量大于这个数时，才进行转树，
-####指数组长度>MIN_TREEIFY_CAPACITY 时，转树
+#### 容器转化为树的最小容量，当整个哈希表的容量大于这个数时，才进行转树，
+#### 指数组长度>MIN_TREEIFY_CAPACITY 时，转树
    
         /**
          * The smallest table capacity for which bins may be treeified.

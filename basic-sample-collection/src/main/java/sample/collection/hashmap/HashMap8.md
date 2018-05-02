@@ -1,30 +1,5 @@
-[TOC]
-
-    /*
-     * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
-     * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     */
-    
+HashMap分析
+---
     package sample.collection.hashmap;
     
     import java.io.IOException;

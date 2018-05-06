@@ -7,7 +7,7 @@ import java.util.Map;
 /**
  * @author soyona
  * @Package sample.reflect.api
- * @Desc:
+ * @Desc: 返回参数化类型的接口
  * @date 2018/5/4 11:38
  */
 public class ClassMethodOfGetGenericInterfaces {

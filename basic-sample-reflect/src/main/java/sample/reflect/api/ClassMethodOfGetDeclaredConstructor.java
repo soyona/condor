@@ -6,7 +6,7 @@ import java.lang.reflect.Method;
 /**
  * @author soyona
  * @Package sample.reflect.api
- * @Desc:
+ * @Desc: 指定构造参数类型列表返回 构造
  * @date 2018/5/4 10:42
  */
 public class ClassMethodOfGetDeclaredConstructor {

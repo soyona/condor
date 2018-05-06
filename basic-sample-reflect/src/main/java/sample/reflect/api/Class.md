@@ -1534,7 +1534,7 @@ Class源码分析
             return copyFields(privateGetPublicFields(null));
         }
     
-###获取Class中定义所有public的方法对象    
+###获取Class中定义所有public的方法对象，包括父类   
         /**
          * Returns an array containing {@code Method} objects reflecting all the
          * public methods of the class or interface represented by this {@code

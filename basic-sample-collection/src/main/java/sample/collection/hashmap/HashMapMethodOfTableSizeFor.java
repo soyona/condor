@@ -22,6 +22,6 @@ public class HashMapMethodOfTableSizeFor {
         return (n < 0) ? 1 : (n >= MAXIMUM_CAPACITY) ? MAXIMUM_CAPACITY : n + 1;
     }
     public static void main(String[] args) {
-        System.out.println(tableSizeFor(20));
+        System.out.println(tableSizeFor(8));
     }
 }

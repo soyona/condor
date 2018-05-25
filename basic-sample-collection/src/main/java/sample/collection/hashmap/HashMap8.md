@@ -116,7 +116,8 @@ HashMap分析
         implements Map<K,V>, Cloneable, Serializable {
     
         private static final long serialVersionUID = 362498820763181265L;
-    
+说明
+---    
         /*
          * Implementation notes.
          *
@@ -130,13 +131,25 @@ HashMap分析
          * when overpopulated. However, since the vast majority of bins in
          * normal use are not overpopulated, checking for existence of
          * tree bins may be delayed in the course of table methods.
+```        
+         在表方法期间，检查tree箱的操作可能被延迟
+```
          *
          * Tree bins (i.e., bins whose elements are all TreeNodes) are
          * ordered primarily by hashCode, but in the case of ties, if two
          * elements are of the same "class C implements Comparable<C>",
          * type then their compareTo method is used for ordering. (We
+    
+```         
+         _树箱（即，他的元素都是树节点）主要根据hashCode排序，但是在这种情况下，          
+         如果两个元素都是同样实现Comparable接口的类C，那他们的compareTo方法被用来排序。_
+```
+         *
          * conservatively check generic types via reflection to validate
          * this -- see method comparableClassFor).  The added complexity
+```
+         (我们检查范型 稳妥的做法是通过反射区检验--查看comparableClassFor方法)         
+```         
          * of tree bins is worthwhile in providing worst-case O(log n)
          * operations when keys either have distinct hashes or are
          * orderable, Thus, performance degrades gracefully under
@@ -144,6 +157,14 @@ HashMap分析
          * return values that are poorly distributed, as well as those in
          * which many keys share a hashCode, so long as they are also
          * Comparable. (If neither of these apply, we may waste about a
+```   
+        _当keys具有不同的哈希或者有序的，会增加树箱的复杂度，最坏的情况是O(log n)个操作，
+        这样的话，在偶然或者恶意的用法时，性能将大幅度下降，这种情况是hashCode()方法的返回值不分散，  
+        与许多keys共享一个hashCode一样，
+        只要他们也是可比较的。（如果两者都不实用，如果不采取措施，我们可能浪费1倍的时间和空间，
+        但是从糟糕的用户编程实践中得出的唯一情况是，已经太慢，使得也没什么区别！）_
+        
+```         
          * factor of two in time and space compared to taking no
          * precautions. But the only known cases stem from poor user
          * programming practices that are already so slow that this makes
@@ -163,6 +184,9 @@ HashMap分析
          * occurrences of list size k are (exp(-0.5) * pow(0.5, k) /
          * factorial(k)). The first values are:
          *
+```
+        因为树节点大约是普通节点大小的两倍，我们仅当箱包含足够的节点保证使用的情况下使用（查看 TREEIFY_THRESHOLD）
+```         
          * 0:    0.60653066
          * 1:    0.30326533
          * 2:    0.07581633
@@ -371,8 +395,10 @@ HashMap分析
         }
 ### int tableSizeFor(int cap)
 ##### 保证返回2的幂
-##### 参考 https://blog.csdn.net/fan2012huan/article/details/51097331 
-##### n!=0时，如下
+##### 参考：https://blog.csdn.net/fan2012huan/article/details/51097331 
+##### 参考：https://www.jianshu.com/p/020b76824aa0
+##### n!=0时，如下：
+```
     ------------------------------------------------
     0   1   0   0   0    <-----  n=8 
     0   0   1   0   0    <-----  n >>> 1
@@ -387,6 +413,7 @@ HashMap分析
     0   1   1   1   1    <-----  n|=n >>> 16  
     ------------------------------------------------
     + 如上算法会使从最高位的1开始，低位方向全部转化为1，最后：n+1=2的幂    
+```    
 #####         
         /**
          * Returns a power of two size for the given target capacity.
@@ -403,7 +430,8 @@ HashMap分析
 属性
 ---    
         /* ---------------- Fields -------------- */
-### table，Node数组，大小：2的幂   
+### table，Node数组，大小：2的幂
+##### 第一次使用时初始化，在必要时扩容。 当分配内存时，长度总是2的幂次  
         /**
          * The table, initialized on first use, and resized as
          * necessary. When allocated, length is always a power of two.
@@ -685,7 +713,7 @@ public V put(K key, V value)
    
     (n - 1) & hash 意义：截取hash的 后n位
     
-    比如：77的二进制表示为：1001101，与2的3次幂-1 做&运算的结果二进制表示为：101，（十进制：5）
+    比如：77的二进制表示为：1001101，与2的3次幂 - 1 做&运算的结果二进制表示为：101，（十进制：5）
     结论1：任何一个数字与2的3次幂-1 做&运算的结果的取值范围是：000~111，（十进制：0~7），永远超不过2的3次幂
     结论2：设数组长度为2的n次幂，有整型数字x，那么，通过掩码&运算：（2的n次幂-1）& x 总能得到合法的数组下标
 ######  2.1 如果为null，创建节点newNode(hash, key, value, null) 并赋值给tab[i]          
@@ -2486,3 +2514,6 @@ public V put(K key, V value)
         }
     
     }
+
+
+##### 参考：http://www.importnew.com/18633.html

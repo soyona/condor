@@ -4,9 +4,10 @@ String类
  初始化
 -----
 
-* 1、编译期间，"Hello"字符串常量在Class文件结构的常量池中[^1]
-* 2、在class文件"加载阶段"，字符串 "Hello" 随着Class文件的字节流转为为方法区的运行时常量池，
+* 1、编译期间，"Hello"字符串常量在Class文件结构的常量池表（constant_pool table）中[^1]
+* 2、在class文件"加载阶段"，字符串 "Hello" 随着Class文件的字节流转为为方法区的运行时常量池（runtime constant pool），
 * 3、运行期间
+* 4、运行时常量池（runtime constant pool）是class文件中每一个类或接口的常量池表（constant_pool table）的运行时表示形式[^2]
 
 ``` java
         public static void main(String[] args) {
@@ -15,6 +16,7 @@ String类
 ```
 
 [^1]: A
+[^2]: Java虚拟机规范（Java SE 8版）P11
 # equals()
 # hash()
 # trim()

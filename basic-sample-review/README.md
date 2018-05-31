@@ -159,3 +159,20 @@ private static class LongCache {
     }
 }
 ```
+
+CharacterCache
+----
+CharacterCache范围：[0,127]
+
+```java
+private static class CharacterCache {
+    private CharacterCache(){}
+
+    static final Character cache[] = new Character[127 + 1];
+
+    static {
+        for (int i = 0; i < cache.length; i++)
+            cache[i] = new Character((char)i);
+    }
+}
+```

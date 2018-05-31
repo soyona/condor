@@ -82,4 +82,31 @@ public static Integer valueOf(int i) {
 }
 
 ```
+---
+
+ByteCache类说明
+---
+```text
+ByteCache缓存了[-128,127]中的整数
+Byte的声明：
+
+Byte b=(byte)128;
+Byte a=(byte)128;
+a==b?
+结果：===true，因为Byte声明必须经过类型强转，强转后的值一定在[-128,127]中，一定都在Cache中，所以恒等。
+```
+
+```java
+private static class ByteCache {
+    private ByteCache(){}
+
+    static final Byte cache[] = new Byte[-(-128) + 127 + 1];
+
+    static {
+        for(int i = 0; i < cache.length; i++)
+            cache[i] = new Byte((byte)(i - 128));
+    }
+}
+
+```
 

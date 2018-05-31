@@ -3,7 +3,9 @@ package sample.review.integer;
 /**
  * @author soyona
  * @Package sample.review.integer
- * @Desc: Integer a = 127 过程
+ * @Desc:
+ * Integer范围：[-2147483648,2147483647]
+ * Integer a = 127 过程
  * 1、<clinit阶段> 变量 a 初始化 0值，
  * 1.1、调Integer.getInteger(String nm, int val)
  * 1.2、Integer.valueOf(int i)

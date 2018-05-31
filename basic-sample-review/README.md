@@ -144,3 +144,18 @@ public static Short valueOf(short s) {
 }
 ```
 
+```text
+LongCache 缓存[-128,127]之间的整数，超过该范围重新new
+```
+```java
+private static class LongCache {
+    private LongCache(){}
+
+    static final Long cache[] = new Long[-(-128) + 127 + 1];
+
+    static {
+        for(int i = 0; i < cache.length; i++)
+            cache[i] = new Long(i - 128);
+    }
+}
+```

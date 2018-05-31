@@ -109,4 +109,38 @@ private static class ByteCache {
 }
 
 ```
+  
+
+ShortCache类
+---
+```text
+ShortCache缓存[-128,127]之间的整数，超过该范围重新new
+```
+
+```java
+private static class ShortCache {
+    private ShortCache(){}
+
+    static final Short cache[] = new Short[-(-128) + 127 + 1];
+
+    static {
+        for(int i = 0; i < cache.length; i++)
+            cache[i] = new Short((short)(i - 128));
+    }
+}
+```
+
+```text
+范围之外[-128,127]，new Short(s);
+```
+```java
+public static Short valueOf(short s) {
+    final int offset = 128;
+    int sAsInt = s;
+    if (sAsInt >= -128 && sAsInt <= 127) { // must cache
+        return ShortCache.cache[sAsInt + offset];
+    }
+    return new Short(s);
+}
+```
 

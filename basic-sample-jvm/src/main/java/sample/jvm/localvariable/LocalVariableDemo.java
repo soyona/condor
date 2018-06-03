@@ -30,7 +30,7 @@ package sample.jvm.localvariable;
 public class LocalVariableDemo {
     public static void main(String[] args) {
         testWithGC();
-        testWithoutGC();
+//        testWithoutGC();
     }
 
 

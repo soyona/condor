@@ -56,7 +56,7 @@ TCP四次挥手
 
 浏览器DNS缓存
 ---
-######Chrome浏览器查看
+###### Chrome浏览器查看
 ```text
 chrome://net-internals/#dns
 ```
@@ -130,7 +130,7 @@ AIO
 ```
 
  
-######I/O多路复用-select
+###### I/O多路复用-select
 ```java
 int select (int n, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, struct timeval *timeout);
 ```
@@ -142,7 +142,7 @@ int select (int n, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, struct 
 3、每次调用select都需要在内核遍历所有fd，查看有么有就绪的fd，当fd增多时，效率随fd数据增加而线性下降
 ```
 
-######I/O多路复用-poll
+###### I/O多路复用-poll
 ```text
 缺点：
  
@@ -151,7 +151,7 @@ int select (int n, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, struct 
  
 ```
 
-######I/O多路复用-epoll
+###### I/O多路复用-epoll
 ```text
 epoll描述：
  
@@ -205,7 +205,7 @@ epoll工作模式：ET/LT
 
 ```
 
-######select/poll/epoll 比较
+###### select/poll/epoll 比较
 ```text
 select、poll、epoll本质上都是同步，读写自己负责，读写是阻塞
 ```

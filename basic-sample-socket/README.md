@@ -250,7 +250,7 @@ I/O模型
 6.2.1 阻塞式I/O模型
 ---
 
- ![Mou logo](http://markdown-1251837863.coshk.myqcloud.com/mou-128x128.png)
+ ![Mou logo](https://segmentfault.com/img/bVm1c3)
  
 
 ```text

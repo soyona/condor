@@ -1,3 +1,7 @@
+一、网络层级模型
+===
+
+
 OSI七层网络模型
 ---
 ```text
@@ -29,6 +33,12 @@ TCP/IP四层网络模型
 1、物理层
 ```
 
+二、TCP的连接和终止
+===
+
+```text
+参考：[UNIX网络编程 卷1：套接字联网API(第3版)] P31~P38
+```
 
 TCP三次握手状态图
 ---
@@ -37,6 +47,7 @@ TCP三次握手状态图
  
 参考：https://blog.csdn.net/zhengleiguo/article/details/37509861
 ```
+
 TCP四次挥手
 ---
 ```text
@@ -110,10 +121,16 @@ AIO
 2、Proactor-用于异步I/O
 ```
 
-Linux处理高并发之多路复用
----
+三、Linux处理高并发之I/O多路复用
+===
 
-######select
+######
+```text
+参考：https://segmentfault.com/a/1190000003063859
+```
+
+ 
+######I/O多路复用-select
 ```java
 int select (int n, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, struct timeval *timeout);
 ```
@@ -125,7 +142,7 @@ int select (int n, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, struct 
 3、每次调用select都需要在内核遍历所有fd，查看有么有就绪的fd，当fd增多时，效率随fd数据增加而线性下降
 ```
 
-######poll
+######I/O多路复用-poll
 ```text
 缺点：
  
@@ -134,7 +151,7 @@ int select (int n, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, struct 
  
 ```
 
-######epoll
+######I/O多路复用-epoll
 ```text
 epoll描述：
  
@@ -188,11 +205,6 @@ epoll工作模式：ET/LT
 
 ```
 
-######同步和异步 I/O
-```text
-同步I/O：读写需要用户进程本身读写，数据需经过 内核 到 用户空间 过程。
-异步I/O：用户进程无需自身负责读写操作，数据 从 内核 到 用户空间 的复制通过 异步I/O本身执行
-```
 ######select/poll/epoll 比较
 ```text
 select、poll、epoll本质上都是同步，读写自己负责，读写是阻塞
@@ -219,4 +231,54 @@ select、poll、epoll本质上都是同步，读写自己负责，读写是阻�
 4、进程状态切换：
  
     select、poll每次不断轮询所有fd集合，直到设备就绪，等待期间进程多次进入读/写等待队列，发生多次睡眠和唤醒。epoll需要轮训"就绪链表" 而不是所有fd，
+```
+
+
+I/O模型
+===
+```text
+参考：[UNIX网络编程 卷1：套接字联网API(第3版)] P123
+```
+```text
+一个输入操作通常包括两个不同的阶段：
+（1）等待数据准备好
+（2）从内核向进程复制数据
+对于一个套接字上的输入操作：
+第一步：通常涉及等待数据从网络中到达。当所等待分组到达时，它被复制到内核中的某个缓冲区。
+第二步：把数据从内核缓冲区复制到应用进程缓冲区。
+```
+6.2.1 阻塞式I/O模型
+---
+```text
+    
+
+```
+6.2.2 非阻塞式I/O模型
+---
+```text
+
+```
+6.2.3 I/O复用模型
+---
+```text
+
+```
+
+6.2.4 信号驱动I/O模型
+---
+```text
+
+```
+
+6.2.5 异步I/O模型
+---
+```text
+
+```
+
+```text
+同步和异步
+ 
+同步I/O：读写需要用户进程本身读写，数据需经过 内核 到 用户空间 过程。
+异步I/O：用户进程无需自身负责读写操作，数据 从 内核 到 用户空间 的复制通过 异步I/O本身执行
 ```

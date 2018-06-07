@@ -251,10 +251,12 @@ I/O模型
 ---
 
  ![Mou logo](https://segmentfault.com/img/bVm1c3)
- 
-
 ```text
-    
+阻塞式I/O(blocking I/O)模型
+ 
+进程调用recvfrom，其系统调用直到数据报达到且被复制到应用进程的缓存区中或者发生错误才返回。
+进程在从调用recvfrom开始到他返回的整段时间内是被阻塞的。
+recvfrom函数成功返回后，应用进程开始处理数据报。    
 
 ```
 6.2.2 非阻塞式I/O模型

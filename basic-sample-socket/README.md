@@ -102,6 +102,7 @@ NIO
 4、使用场景：
    用于连接数目多且连接比较短的架构，比如IM服务
 
+
 ```
 
 AIO
@@ -111,14 +112,14 @@ AIO
 2、服务器实现：一个有效请求 一个线程
 3、使用场景：
 用于连接数目多且连接比较长的架构，比如相册服务、
-     
+描述：线程发起IO请求，立即返回；数据在用户空间准备好后，调用注册的回调函数通知线程做IO操作     
 ```
 
 高性能I/O设计两种模式
 ---
 ```text
-1、Reactor-用于同步I/O
-2、Proactor-用于异步I/O
+1、Reactor-用于同步I/O（NIO采用）
+2、Proactor-用于异步I/O（AIO采用）
 ```
 
 三、Linux处理高并发之I/O多路复用
@@ -238,6 +239,7 @@ I/O模型
 ===
 ```text
 参考：[UNIX网络编程 卷1：套接字联网API(第3版)] P123
+参考：[https://segmentfault.com/a/1190000003063859]，图例来源。
 ```
 ```text
 一个输入操作通常包括两个不同的阶段：
@@ -261,11 +263,14 @@ recvfrom函数成功返回后，应用进程开始处理数据报。
 ```
 6.2.2 非阻塞式I/O模型
 ---
+ ![Mou logo](https://segmentfault.com/img/bVm1c4)
 ```text
 
 ```
 6.2.3 I/O复用模型
 ---
+ ![Mou logo](https://segmentfault.com/img/bVm1c5)
+
 ```text
 
 ```
@@ -278,6 +283,7 @@ recvfrom函数成功返回后，应用进程开始处理数据报。
 
 6.2.5 异步I/O模型
 ---
+ ![Mou logo](https://segmentfault.com/img/bVm1c8)
 ```text
 
 ```

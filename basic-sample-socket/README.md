@@ -265,6 +265,8 @@ recvfrom函数成功返回后，应用进程开始处理数据报。
 ---
  ![Mou logo](https://segmentfault.com/img/bVm1c4)
 ```text
+非阻塞式I/O模型（nonblocking IO）
+ 
 
 ```
 6.2.3 I/O复用模型
@@ -272,9 +274,28 @@ recvfrom函数成功返回后，应用进程开始处理数据报。
  ![Mou logo](https://segmentfault.com/img/bVm1c5)
 
 ```text
+I/O复用模型（IO multiplexing）
+ 
+I/O multiplexing是指select、poll、epoll，有些地方称之为event driven IO。
+特点：一个线程处理多个socket IO。
+基本原理：select、poll、epoll不断轮询所负责的socket（fd），当有socketIO有数据到达了，通知用户进程；
+ 
+```
+```text
+流程描述：
+ 
+1.当用户进程调用select，进程被block，同时，内核"监视"所有select负责的socket；
+2.有任何socket数据到达了，select返回；
+3.用户进程再调用read系统调用，将数据从内核拷贝到用户进程空间。
+```
+```text
+分析
+ 
+
+1、IO multiplexing需要使用两个系统调用：select，recvfrom
+2、同时处理多个socket连接
 
 ```
-
 6.2.4 信号驱动I/O模型
 ---
 ```text
@@ -285,7 +306,7 @@ recvfrom函数成功返回后，应用进程开始处理数据报。
 ---
  ![Mou logo](https://segmentfault.com/img/bVm1c8)
 ```text
-描述：
+流程描述：
 1. 用户进程发起read操作之后，立刻返回，继续其他执行；
 2. 内核，当接收到asynchronous read调用后，立刻返回，此时不会阻塞用户进程；
 3. 内核，等待IO数据到达并缓存，并将其拷贝至用户进程空间，完成之后，通知用户进程，数据准备完成；

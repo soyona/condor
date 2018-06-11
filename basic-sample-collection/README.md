@@ -14,4 +14,4 @@
 > 增加了两个引用：Entry<K,V> before, after;
 
 ## LinkedHashMap中的Entry结构：
-[entry](./src/main/resources/linkedhashmap-entry.png)
+[entry](https://github.com/soyona/condor/blob/master/basic-sample-collection/src/main/resources/linkedhashmap-entry.png)

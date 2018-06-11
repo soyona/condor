@@ -224,8 +224,8 @@ String s = new String("s"); //创建几个对象？
 
 * 原生类型(primitive type)占用内存情况
 
-primitive type | Memory Required(bytes) |
-- | :-: | :-:
+primitive type | Memory Required(bytes)
+-|-
 boolean | 1
 byte|1
 char|2
@@ -237,22 +237,22 @@ double|8
 
 * 引用类型占用内存情况
 
-reference type| Memory Required(bytes)|-XX: +UseCompressedOops
-- |:-:|:-:|:-:|:-:
+reference type| Memory Required(bytes)|-XX: +UseCompressedOops|NOTE
+-|:-:|:-:|:-:
 32位|4|-|32位系统，需要32bit，方能遍及2^32=4G的内存
 64位|8|4|64位系统，需要64bit，8个bytes
 
 * 对象头占用内存情况(jvm对象头一般占用两个机器码)
 
 对象头 | Memory Required(bytes) |-XX: +UseCompressedOops
-- | :-: | :-:|:-:
+-| :-: | :-:
 32位|8|-
 64位|16|12
 
 * 数组对象头占用内存情况
 
 对象头 | Memory Required(bytes) |-XX: +UseCompressedOops
-- | :-: | :-:|:-:
+-|:-:|:-:
 32位|-|-
 64位|24|16
 

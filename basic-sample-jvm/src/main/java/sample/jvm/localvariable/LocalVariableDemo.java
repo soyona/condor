@@ -28,9 +28,10 @@ package sample.jvm.localvariable;
  * @date 2018/6/1 16:39
  */
 public class LocalVariableDemo {
-    public static void main(String[] args) {
-        testWithGC();
+    public static void main(String[] args) throws InterruptedException {
+//        testWithGC();
 //        testWithoutGC();
+        testMinorGC();
     }
 
 
@@ -63,5 +64,14 @@ public class LocalVariableDemo {
             byte[] bs = new byte[64 * 1024 * 1024];
         }
         System.gc();
+    }
+    
+    public static void testMinorGC() throws InterruptedException {
+        for (;;){
+            Thread.currentThread().setName("kanglei");
+//            Thread.sleep(100);
+            byte[] bs = new byte[1 * 1024 * 1024];
+            System.out.println("#");
+        }
     }
 }

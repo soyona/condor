@@ -1,7 +1,6 @@
 # 一、配置：垃圾回收监控
 
-
- * IDEA配置一
+## IDEA配置一
 ```text
 
 在IDEA->Run->Edit Configuration->选项 Configuration中->VM options: 配置内容如下：
@@ -24,7 +23,7 @@ CommandLine flags: -XX:InitialHeapSize=268435456 -XX:MaxHeapSize=4294967296 -XX:
 0.135: [GC (System.gc())  65882K->65882K(251392K), 0.0003951 secs]
 0.136: [Full GC (System.gc())  65882K->65862K(251392K), 0.0111741 secs]
 ```
-* IDEA配置二
+## IDEA配置二
 ```text
 在IDEA->Run->Edit Configuration->选项 Configuration中->VM options: 配置内容如下：
 
@@ -56,14 +55,12 @@ Heap
   class space    used 287K, capacity 386K, committed 512K, reserved 1048576K
 ```
 
-配置：线程栈大小
----
+## 配置：线程栈大小
 ```text
 -Xss128K：每个线程的堆栈大小为128K
 ```
 
-配置：堆大小
----
+## 配置：堆大小
 ```text
 -Xms2g：JVM启动初始化堆大小为2g，Xms的默认是物理内存的1/64但小于1G。
 -Xmx2g：JVM最大的堆大小为2g，Xmx默认是物理内存的1/4但小于1G；将-Xms和-Xmx的值配置为一样，可以避免每次垃圾回收完成后对JVM堆大小进行重新的调整。

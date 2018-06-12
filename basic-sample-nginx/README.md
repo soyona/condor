@@ -1,6 +1,6 @@
 一、Nginx介绍
 ===
->摘自：[]
+>摘自：[深入理解Nginx模块开发与架构解析]
 
 ```text
 Nginx是一个高性能的HTTP和反向代理服务器，也是一个IMAP/POP3/SMTP代理服务器.

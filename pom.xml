@@ -22,6 +22,22 @@
         <module>basic-sample-data-structures-algorithm</module>
         <module>basic-sample-reflect</module>
         <module>basic-sample-classloader</module>
+        <module>basic-sample-review</module>
+        <module>basic-sample-memory</module>
+        <module>basic-sample-object</module>
+        <module>basic-sample-redis</module>
+        <module>basic-sample-zookeeper</module>
+        <module>basic-sample-string</module>
+        <module>basic-sample-class</module>
+        <module>basic-sample-jvm</module>
+        <module>basic-sample-linux</module>
+        <module>basic-sample-db</module>
+        <module>basic-sample-nginx</module>
+        <module>basic-sample-distribute</module>
+        <module>basic-sample-hessian</module>
+        <module>basic-sample-rpc</module>
+        <module>basic-sample-rmi</module>
+        <module>basic-sample-design-pattern</module>
     </modules>
 
 </project>

@@ -1,11 +1,11 @@
-package sample.pd.observer;
+package sample.dp.observer;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author soyona
- * @Package sample.pd.observer
+ * @Package sample.dp.observer
  * @Desc:
  * 促销价格维护服务，应该具备维护价格的基本行为，价格修改通知观察者的行为
  * @date 2018/6/19 21:02

@@ -1,8 +1,8 @@
-package sample.pd.observer;
+package sample.dp.observer;
 
 /**
  * @author soyona
- * @Package sample.pd.observer
+ * @Package sample.dp.observer
  * @Desc: 京东渠道的 价格观察者，监听到变化，调用京东价格API进行修改行为
  * @date 2018/6/19 20:55
  */

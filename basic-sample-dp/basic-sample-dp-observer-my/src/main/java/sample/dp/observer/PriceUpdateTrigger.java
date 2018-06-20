@@ -1,8 +1,8 @@
-package sample.pd.observer;
+package sample.dp.observer;
 
 /**
  * @author soyona
- * @Package sample.pd.observer
+ * @Package sample.dp.observer
  * @Desc: 触发价格修改
  * @date 2018/6/19 21:11
  */

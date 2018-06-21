@@ -132,7 +132,7 @@ HashMap分析
          * normal use are not overpopulated, checking for existence of
          * tree bins may be delayed in the course of table methods.
 ```        
-         在表方法期间，检查tree箱的操作可能被延迟
+    在表方法期间，检查tree箱的操作可能被延迟
 ```
          *
          * Tree bins (i.e., bins whose elements are all TreeNodes) are
@@ -141,14 +141,14 @@ HashMap分析
          * type then their compareTo method is used for ordering. (We
     
 ```         
-         _树箱（即，他的元素都是树节点）主要根据hashCode排序，但是在这种情况下，          
-         如果两个元素都是同样实现Comparable接口的类C，那他们的compareTo方法被用来排序。_
+    树箱（即，他的元素都是树节点）主要根据hashCode排序，但是在这种情况下，          
+    如果两个元素都是同样实现Comparable接口的类C，那他们的compareTo方法被用来排序。_
 ```
          *
          * conservatively check generic types via reflection to validate
          * this -- see method comparableClassFor).  The added complexity
 ```
-         (我们检查范型 稳妥的做法是通过反射区检验--查看comparableClassFor方法)         
+    (我们检查范型 稳妥的做法是通过反射区检验--查看comparableClassFor方法)         
 ```         
          * of tree bins is worthwhile in providing worst-case O(log n)
          * operations when keys either have distinct hashes or are
@@ -158,11 +158,11 @@ HashMap分析
          * which many keys share a hashCode, so long as they are also
          * Comparable. (If neither of these apply, we may waste about a
 ```   
-        _当keys具有不同的哈希或者有序的，会增加树箱的复杂度，最坏的情况是O(log n)个操作，
-        这样的话，在偶然或者恶意的用法时，性能将大幅度下降，这种情况是hashCode()方法的返回值不分散，  
-        与许多keys共享一个hashCode一样，
-        只要他们也是可比较的。（如果两者都不实用，如果不采取措施，我们可能浪费1倍的时间和空间，
-        但是从糟糕的用户编程实践中得出的唯一情况是，已经太慢，使得也没什么区别！）_
+    当keys具有不同的哈希或者有序的，会增加树箱的复杂度，最坏的情况是O(log n)个操作，
+    这样的话，在偶然或者恶意的用法时，性能将大幅度下降，这种情况是hashCode()方法的返回值不分散，  
+    与许多keys共享一个hashCode一样，
+    只要他们也是可比较的。（如果两者都不实用，如果不采取措施，我们可能浪费1倍的时间和空间，
+    但是从糟糕的用户编程实践中得出的唯一情况是，已经太慢，使得也没什么区别！）_
         
 ```         
          * factor of two in time and space compared to taking no
@@ -185,7 +185,11 @@ HashMap分析
          * factorial(k)). The first values are:
          *
 ```
-        因为树节点大约是普通节点大小的两倍，我们仅当箱包含足够的节点保证使用的情况下使用（查看 TREEIFY_THRESHOLD）
+    因为树节点大约是普通节点大小的两倍，我们仅当箱包含足够的节点保证使用的情况下使用（查看 TREEIFY_THRESHOLD）
+    当节点大小因为删除或者扩容变小，他们将再转换成普通的箱子。如果用户hashCodes分布良好，树箱很少使用。
+    理想的情况，在随机的hashCodes情况下，箱中的节点的频率遵循泊松分布：
+    泊松分布适合于描述单位时间内随机事件发生的次数的概率分布】
+        
 ```         
          * 0:    0.60653066
          * 1:    0.30326533
@@ -203,6 +207,10 @@ HashMap分析
          * be elsewhere, but can be recovered following parent links
          * (method TreeNode.root()).
          *
+```
+    树箱的根节点通常是它的第一个节点。然而，有时（目前只在迭代器的remove时），根节点可能在别处，但是沿着父链接（TreeNode.root()方法）一定能找到。
+
+```         
          * All applicable internal methods accept a hash code as an
          * argument (as normally supplied from a public method), allowing
          * them to call each other without recomputing user hashCodes.
@@ -210,6 +218,11 @@ HashMap分析
          * normally the current table, but may be a new or old one when
          * resizing or converting.
          *
+```
+    所有使用的内部方法接收一个hashcode作为参数，允许他们相互调用而不用计算用户hashCodes。
+    大多数内部方法也接收一个"tab"参数，通常是当前 table，但是当扩容或是转换时可能是一个新的或者是旧的。 
+
+```         
          * When bin lists are treeified, split, or untreeified, we keep
          * them in the same relative access/traversal order (i.e., field
          * Node.next) to better preserve locality, and to slightly
@@ -219,6 +232,12 @@ HashMap分析
          * rebalancings, we compare classes and identityHashCodes as
          * tie-breakers.
          *
+```
+    当箱列表转换为树，分裂，或是 从树结构转换回时，我们保持他们处于同样相对访问/遍历的顺序（即，Node.next）
+    
+    当插入操作使用比较器时，为了保持总体重新平衡顺序，我们比较类和唯一表示HashCodes 作为权衡标准。
+
+```         
          * The use and transitions among plain vs tree modes is
          * complicated by the existence of subclass LinkedHashMap. See
          * below for hook methods defined to be invoked upon insertion,
@@ -227,6 +246,11 @@ HashMap分析
          * requires that a map instance be passed to some utility methods
          * that may create new nodes.)
          *
+```
+   子类LinkedHashMap的存在，普通模式与树模式之间使用和转换被复杂化了，查看下面定义的钩子方法，这些方法在插入、删除和访问时被调用
+   以使LinkedHashMap内部保持独立于这些机制。（这也需要一个map实例传递给一些可以创建新节点的工具方法）
+
+```         
          * The concurrent-programming-like SSA-based coding style helps
          * avoid aliasing errors amid all of the twisty pointer operations.
          */

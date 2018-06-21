@@ -6,7 +6,16 @@
 
     <groupId>soyona.basic.samples</groupId>
     <artifactId>basic-sample-collection</artifactId>
+    <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>basic-sample-collection-hashmap</module>
+        <module>basic-sample-collection-linkedhashmap</module>
+        <module>basic-sample-collection-treemap</module>
+        <module>basic-sample-collection-arraylist</module>
+        <module>basic-sample-collection-linkedlist</module>
+        <module>basic-sample-collection-concurrenthashmap</module>
+    </modules>
 
     <dependencies>
         <dependency>

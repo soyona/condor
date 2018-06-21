@@ -18,7 +18,7 @@ public class LRU<K,V> extends LinkedHashMap<K,V> implements Map<K,V>{
     }
 
     @Override
-    protected boolean removeEldestEntry(Map.Entry<K,V> eldest) {
+    protected boolean removeEldestEntry(Entry<K,V> eldest) {
         if(size()>60){
             return true;
         }

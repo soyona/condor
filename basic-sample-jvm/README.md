@@ -87,13 +87,12 @@ https://www.jianshu.com/p/c7f47de2ee80
     1.2、使用缓存时机1：Integer i=127;
     1.3、使用缓存时机2：Integer x=Integer.valueOf(127);
     1.4、不使用缓存时机3：Integer y=new Integer(127);
-
-
+ 
 2、String
     2.1、使用常量池时机1：String s="abc";
     2.2、使用常量池时机2：String s="字符串1" + "字符串2"；
     2.3、不使用常量池：new String("字符串1") + new String("字符串2") 只会在堆里
-
+ 
 3、new String() + new String()实现
     3.1、StringBuilder.append()
 ```

@@ -6,7 +6,17 @@
 
     <groupId>soyona.basic.samples</groupId>
     <artifactId>basic-sample-serializable</artifactId>
+    <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>basic-sample-serializable-avro</module>
+        <module>basic-sample-serializable-hessian</module>
+        <module>basic-sample-serializable-jdk</module>
+        <module>basic-sample-serializable-json</module>
+        <module>basic-sample-serializable-kryo</module>
+        <module>basic-sample-serializable-protobuf</module>
+        <module>basic-sample-serializable-thrift</module>
+    </modules>
 
 
 </project>

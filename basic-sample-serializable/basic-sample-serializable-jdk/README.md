@@ -68,3 +68,5 @@ if (obj instanceof String) {// String
 
 防止序列化空对象null，所以transient
 ```
+# Reference
+> http://www.importnew.com/24490.html

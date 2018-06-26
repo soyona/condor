@@ -23,6 +23,8 @@ public class Demo {
         order.setNeedSaleMoney(new BigDecimal(2.03));
         order.setStatus(1);
         Order.setPNO("TMALL");
+        //Order中的对象应用，Member必须实现 Serializable，否则 抛出异常 java.io.NotSerializableException: sample.serializable.jdk.Member
+        order.setMember(new Member("209"));
         System.out.println("序列化对象信息。。"+order);
         oos.writeObject(order);
         oos.flush();
@@ -35,6 +37,7 @@ public class Demo {
         ObjectInputStream ois = new ObjectInputStream(fis);
 
         Order order_x = (Order)ois.readObject();
+        System.out.println(order_x.getMember().getSID());
         ois.close();
         System.out.println("反序列化对象信息。。"+order_x);
     }

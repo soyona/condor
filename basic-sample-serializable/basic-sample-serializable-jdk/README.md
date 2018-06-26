@@ -7,7 +7,7 @@
 
 # Java对象序列化与反序列化
 > 1. Java中被序列化的对象条件：
-    >> 1.1. 实现 java.io.Serializable接口;
+    >> 1.1. 实现 java.io.Serializable接口; 或者  Externalizable
     >> 1.2. Enum
     >> 1.3. Array
     >> 1.4. String 
@@ -39,15 +39,19 @@ if (obj instanceof String) {// String
 
 > 5. 序列化不保存静态变量。
  
-> 6. 父类若需序列化，必须实现 java.io.Serializable接口 
+> 6. Transient 关键字的作用是控制变量的序列化，在变量声明前加上该关键字，可以阻止该变量被序列化到文件中，在被反序列化后，transient 变量的值被设为初始值，如 int 型的是 0，对象型的是 null。
  
-> 7. Transient 关键字的作用是控制变量的序列化，在变量声明前加上该关键字，可以阻止该变量被序列化到文件中，在被反序列化后，transient 变量的值被设为初始值，如 int 型的是 0，对象型的是 null。
+> 7. 服务器端给客户端发送序列化对象数据，对象中有一些数据是敏感的，比如密码字符串等，希望对该密码字段在序列化时，进行加密，而客户端如果拥有解密的密钥，只有在客户端进行反序列化时，才可以对密码进行读取，这样可以一定程度保证序列化对象的数据安全。
  
-> 8. 服务器端给客户端发送序列化对象数据，对象中有一些数据是敏感的，比如密码字符串等，希望对该密码字段在序列化时，进行加密，而客户端如果拥有解密的密钥，只有在客户端进行反序列化时，才可以对密码进行读取，这样可以一定程度保证序列化对象的数据安全。
- 
-> 9. 在类中增加writeObject 和 readObject 方法可以实现自定义序列化策略  
+> 8. 在类中增加writeObject 和 readObject 方法可以实现自定义序列化策略  
 
 
+## 对象引用的序列化
+> Order类中 有Member引用，那么，Member必须实现java.io.Serializable接口，否则 抛出java.io.NotSerializableException: sample.serializable.jdk.Member
+
+## 继承关系的序列化
+> Parent类若需序列化，必须实现 Parent 必须实现 java.io.Serializable接口 或者 提供默认无参构造。否则抛出 java.io.InvalidClassException: sample.serializable.jdk.Order; no valid constructor 
+ 
 ## BlockDataOutputStream
 > Buffered output stream
 
@@ -68,5 +72,20 @@ if (obj instanceof String) {// String
 
 防止序列化空对象null，所以transient
 ```
+# serialVersionUID的作用
+> serialVersionUID用来表明类的不同版本，
+ 
+> 如果希望类的不同版本（类的方法，属性等修改增加导致版本不一致）兼容，需要指定serialVersionUID，使得不同版本有相同的serialVersionUID。
+ 
+> 如果不希望类的不同版本不兼容，需要指定不同的serialVersionUID，使得类的不同版本有不同的serialVersionUID，此时，可以使用默认的serialVersionUID生成方式。 
+ 
+> 如果实例化后，修改了类（增加字段），如果该类没有指定serialVersionUID，那么，反序列化将抛异常。如果有serialVersionUID，反序列化时，更改的字段将设置为null，或者基本能类型的默认初始值。
+
+ 
+## serialVersionUID的两种生成方式：
+> 默认 1L
+ 
+> 根据类名、接口名、成员方法名、属性生成64位的哈希字段
+ 
 # Reference
 > http://www.importnew.com/24490.html

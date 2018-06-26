@@ -11,12 +11,27 @@ import java.util.Date;
  * @date 2018/6/22 17:32
  */
 public class Order extends Parent implements Serializable {
-    private static final long serialVersionUID =23L;
+    private static final long serialVersionUID = -5573274132416494354L;
+
+    public Order() {
+        System.out.println("默认构造。。");
+    }
+
     public String orderNo;
     public final Date createdTime = new Date();
     public BigDecimal needSaleMoney;
     public transient int status;
     public static String PNO;
+    //对象引用的序列化
+    public Member member;
+
+    public Member getMember() {
+        return member;
+    }
+
+    public void setMember(Member member) {
+        this.member = member;
+    }
 
     public static long getSerialVersionUID() {
         return serialVersionUID;

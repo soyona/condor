@@ -1,4 +1,6 @@
-# 对象序列化
+# 对象序列化和反序列化过程
+![](https://github.com/soyona/condor/blob/master/basic-sample-serializable/basic-sample-serializable-jdk/src/main/resources/img/jdk-serialization.png)
+# 对象序列化应用
 > 序列化是对象持久化的手段，普遍应用在网络传输、RMI等场景中，
  
 > Java对象是在JVM运行时创建的对象，其生命周期不会比JVM生命周期长。在现实应用中，可能要求在JVM停止运行之后能够持久化JAVA对象，并在将来重新读取被持久化的对象。Java对象序列化就是其中一种手段。
@@ -89,3 +91,5 @@ if (obj instanceof String) {// String
  
 # Reference
 > http://www.importnew.com/24490.html
+ 
+> https://docs.oracle.com/javase/7/docs/platform/serialization/spec/serial-arch.html

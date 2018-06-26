@@ -2,14 +2,8 @@
 
 ### 
 
-# 一致性Hash原理
-## 一致性Hash设计实现
-
-
-### 参考：https://www.cnblogs.com/xrq730/p/5186728.html
-
-
-
+# Redis一致性哈希原理
+> 参考：../basic-sample-distribute/READEME.md
 ## 安装
   
 ##  版本 Redis 3.0.1

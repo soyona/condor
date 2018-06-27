@@ -220,3 +220,14 @@ public String substring(int beginIndex, int endIndex) {
     }
 
 ```
+
+>> 在JDK6 下运行 sample.string.MethodOfSubString class 抛出异常
+```text
+/Library/Java/JavaVirtualMachines/1.6.0_65-b14-462.jdk/Contents/Home/bin/java -Dfile.encoding=UTF-8 -classpath /Library/Java/JavaVirtualMachines/1.6.0_65-b14-462.jdk/Contents/Classes/charsets.jar:/Library/Java/JavaVirtualMachines/1.6.0_65-b14-462.jdk/Contents/Classes/classes.jar:/Library/Java/JavaVirtualMachines/1.6.0_65-b14-462.jdk/Contents/Classes/jsse.jar:/Library/Java/JavaVirtualMachines/1.6.0_65-b14-462.jdk/Contents/Classes/ui.jar:/Library/Java/JavaVirtualMachines/1.6.0_65-b14-462.jdk/Contents/Home/lib/deploy.jar:/Library/Java/JavaVirtualMachines/1.6.0_65-b14-462.jdk/Contents/Home/lib/dt.jar:/Library/Java/JavaVirtualMachines/1.6.0_65-b14-462.jdk/Contents/Home/lib/ext/apple_provider.jar:/Library/Java/JavaVirtualMachines/1.6.0_65-b14-462.jdk/Contents/Home/lib/ext/dnsns.jar:/Library/Java/JavaVirtualMachines/1.6.0_65-b14-462.jdk/Contents/Home/lib/ext/localedata.jar:/Library/Java/JavaVirtualMachines/1.6.0_65-b14-462.jdk/Contents/Home/lib/ext/sunjce_provider.jar:/Library/Java/JavaVirtualMachines/1.6.0_65-b14-462.jdk/Contents/Home/lib/ext/sunpkcs11.jar:/Library/Java/JavaVirtualMachines/1.6.0_65-b14-462.jdk/Contents/Home/lib/javaws.jar:/Library/Java/JavaVirtualMachines/1.6.0_65-b14-462.jdk/Contents/Home/lib/jce.jar:/Library/Java/JavaVirtualMachines/1.6.0_65-b14-462.jdk/Contents/Home/lib/jconsole.jar:/Library/Java/JavaVirtualMachines/1.6.0_65-b14-462.jdk/Contents/Home/lib/management-agent.jar:/Library/Java/JavaVirtualMachines/1.6.0_65-b14-462.jdk/Contents/Home/lib/plugin.jar:/Library/Java/JavaVirtualMachines/1.6.0_65-b14-462.jdk/Contents/Home/lib/sa-jdi.jar:/Users/kanglei/GitHub/condor/basic-sample-string/target/classes sample.string.MethodOfSubString
+Exception in thread "main" java.lang.OutOfMemoryError: Java heap space
+at java.util.Arrays.copyOf(Arrays.java:2882)
+at java.lang.StringValue.from(StringValue.java:24)
+at java.lang.String.<init>(String.java:178)
+at sample.string.MethodOfSubString$MyString.<init>(MethodOfSubString.java:23)
+at sample.string.MethodOfSubString.main(MethodOfSubString.java:16)
+```

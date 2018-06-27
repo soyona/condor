@@ -1,13 +1,12 @@
-String类
-------
+# String类
+
 # String类介绍
- 初始化
------
+
 
 # intern()
 
-常量池与运行时常量池的区别
----
+## 常量池与运行时常量池的区别
+
 
 ```text
 1、常量池表（constant_pool table）是静态概念，在class文件范畴，存储字面量及符号引用
@@ -133,5 +132,91 @@ StringBuilder的toString()方法实现如下：
            28       1     1     s   Ljava/lang/String;
 }
 SourceFile: "StringBuilderDemo.java"
+
+```
+
+# JDK7+ substring(int beginIndex, int endIndex)
+> substring(int beginIndex, int endIndex)
+
+    ```java
+    public String substring(int beginIndex, int endIndex) {
+        if (beginIndex < 0) {
+            throw new StringIndexOutOfBoundsException(beginIndex);
+        }
+        if (endIndex > value.length) {
+            throw new StringIndexOutOfBoundsException(endIndex);
+        }
+        int subLen = endIndex - beginIndex;
+        if (subLen < 0) {
+            throw new StringIndexOutOfBoundsException(subLen);
+        }
+        return ((beginIndex == 0) && (endIndex == value.length)) ? this
+                : new String(value, beginIndex, subLen);
+    }
+    ```
+
+>> String(char value[], int offset, int count)
+```java
+public String(char value[], int offset, int count) {
+        if (offset < 0) {
+            throw new StringIndexOutOfBoundsException(offset);
+        }
+        if (count <= 0) {
+            if (count < 0) {
+                throw new StringIndexOutOfBoundsException(count);
+            }
+            if (offset <= value.length) {
+                this.value = "".value;
+                return;
+            }
+        }
+        // Note: offset or count might be near -1>>>1.
+        if (offset > value.length - count) {
+            throw new StringIndexOutOfBoundsException(offset + count);
+        }
+        this.value = Arrays.copyOfRange(value, offset, offset+count);
+    }
+```
+
+>>> Arrays.copyOfRange 
+```java
+ public static char[] copyOfRange(char[] original, int from, int to) {
+        int newLength = to - from;
+        if (newLength < 0)
+            throw new IllegalArgumentException(from + " > " + to);
+        char[] copy = new char[newLength];
+        System.arraycopy(original, from, copy, 0,
+                         Math.min(original.length - from, newLength));
+        return copy;
+    }
+```
+# JDK6 substring(int beginIndex, int endIndex)  
+> substring
+```java
+public String substring(int beginIndex, int endIndex) {
+	if (beginIndex < 0) {
+	    throw new StringIndexOutOfBoundsException(beginIndex);
+	}
+	if (endIndex > count) {
+	    throw new StringIndexOutOfBoundsException(endIndex);
+	}
+	if (beginIndex > endIndex) {
+	    throw new StringIndexOutOfBoundsException(endIndex - beginIndex);
+	}
+	return ((beginIndex == 0) && (endIndex == count)) ? this :
+	    new String(offset + beginIndex, endIndex - beginIndex, value);
+    }
+```
+
+
+>>  String(int offset, int count, char value[])
+>>  新的字符串引用源字符串value，GC无法回收，造成内存溢出
+```java
+    // Package private constructor which shares value array for speed.
+    String(int offset, int count, char value[]) {
+	this.value = value;
+	this.offset = offset;
+	this.count = count;
+    }
 
 ```

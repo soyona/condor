@@ -2,7 +2,7 @@
 > sample.jvm.gc.oo.OOMOfHeap.java
 ```text
 Exception in thread "main" java.lang.OutOfMemoryError: Java heap space
-	at sample.jvm.oo.OOMOfHeap.main(OOMOfHeap.java:14)
+	at sample.jvm.oom.OOMOfHeap.main(OOMOfHeap.java:14)
 	
 ```
 
@@ -14,8 +14,8 @@ Exception in thread "main" javassist.CannotCompileException: by java.lang.OutOfM
     at javassist.ClassPool.toClass(ClassPool.java:1028)
     at javassist.ClassPool.toClass(ClassPool.java:986)
     at javassist.CtClass.toClass(CtClass.java:1079)
-    at sample.jvm.oo.OOMOfMetaSpace.javassist(OOMOfMetaSpace.java:26)
-    at sample.jvm.oo.OOMOfMetaSpace.main(OOMOfMetaSpace.java:20)
+    at sample.jvm.oom.OOMOfMetaSpace.javassist(OOMOfMetaSpace.java:26)
+    at sample.jvm.oom.OOMOfMetaSpace.main(OOMOfMetaSpace.java:20)
     Caused by: java.lang.OutOfMemoryError: Metaspace
     at java.lang.ClassLoader.defineClass1(Native Method)
     at java.lang.ClassLoader.defineClass(ClassLoader.java:760)
@@ -33,7 +33,7 @@ Exception in thread "main" javassist.CannotCompileException: by java.lang.OutOfM
 Exception in thread "main" java.lang.OutOfMemoryError: GC overhead limit exceeded
 	at java.util.Hashtable.addEntry(Hashtable.java:435)
 	at java.util.Hashtable.put(Hashtable.java:476)
-	at sample.jvm.oo.OOMOfOverheadLimitExceeded.main(OOMOfOverheadLimitExceeded.java:19)
+	at sample.jvm.oom.OOMOfOverheadLimitExceeded.main(OOMOfOverheadLimitExceeded.java:19)
 ```
 # StackOverflowError
 > sample.jvm.gc.oo.StackOverflowErrorDemo.java
@@ -54,6 +54,17 @@ Exception in thread "main" java.lang.StackOverflowError
 ```
 
 # StackOverflowError 2
-> sample.jvm.oo.StackOverflowErrorDemo2
+> sample.jvm.oom.StackOverflowErrorDemo2
  
 > toString()方法中有相互依赖，造成方法相互调用 
+
+
+# OutOfMemoryError: unable to create new native thread
+```text
+4073
+4074
+Exception in thread "main" java.lang.OutOfMemoryError: unable to create new native thread
+	at java.lang.Thread.start0(Native Method)
+	at java.lang.Thread.start(Thread.java:714)
+	at sample.jvm.oom.OOMOfUnableToCreateNewNativeThread.main(OOMOfUnableToCreateNewNativeThread.java:28)
+```

@@ -35,3 +35,25 @@ Exception in thread "main" java.lang.OutOfMemoryError: GC overhead limit exceede
 	at java.util.Hashtable.put(Hashtable.java:476)
 	at sample.jvm.oo.OOMOfOverheadLimitExceeded.main(OOMOfOverheadLimitExceeded.java:19)
 ```
+# StackOverflowError
+> sample.jvm.gc.oo.StackOverflowErrorDemo.java
+```text
+10080
+10081
+10082
+Exception in thread "main" java.lang.StackOverflowError
+	at sun.nio.cs.UTF_8$Encoder.encodeLoop(UTF_8.java:691)
+	at java.nio.charset.CharsetEncoder.encode(CharsetEncoder.java:579)
+	at sun.nio.cs.StreamEncoder.implWrite(StreamEncoder.java:271)
+	at sun.nio.cs.StreamEncoder.write(StreamEncoder.java:125)
+	at java.io.OutputStreamWriter.write(OutputStreamWriter.java:207)
+	at java.io.BufferedWriter.flushBuffer(BufferedWriter.java:129)
+	at java.io.PrintStream.write(PrintStream.java:526)
+	at java.io.PrintStream.print(PrintStream.java:597)
+	at java.io.PrintStream.println(PrintStream.java:736)
+```
+
+# StackOverflowError 2
+> sample.jvm.oo.StackOverflowErrorDemo2
+ 
+> toString()方法中有相互依赖，造成方法相互调用 

@@ -6,7 +6,14 @@
 
     <groupId>soyona.basic.samples</groupId>
     <artifactId>basic-sample-jcu</artifactId>
+    <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>basic-sample-jcu-lock</module>
+        <module>basic-sample-jcu-threadpool</module>
+        <module>basic-sample-jcu-app</module>
+        <module>basic-sample-jcu-blockingqueue</module>
+    </modules>
 
 
 </project>

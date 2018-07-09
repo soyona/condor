@@ -86,6 +86,6 @@ public interface ReadWriteLock {
 
 # AbstractQueuedSynchronizer 抽象类
 > java.util.concurrent.locks.AbstractQueuedSynchronizer 子类有
->> `->`java.util.concurrent.locks.ReentrantLock.Sync  
->>> `->`java.util.concurrent.locks.ReentrantLock.NonfairSync 
->>> `->`java.util.concurrent.locks.ReentrantLock.FairSync
+>> `->`java.util.concurrent.locks.ReentrantLock.Sync     
+>>> `->`java.util.concurrent.locks.ReentrantLock.NonfairSync    
+>>> `->`java.util.concurrent.locks.ReentrantLock.FairSync   

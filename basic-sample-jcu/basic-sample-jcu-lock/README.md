@@ -38,9 +38,9 @@ Lock还提供了其他功能，当尝试获取锁时可以被中断lockInterrupt
 ```
 > java.util.concurrent.locks.Lock  has implements:
  
->> `->`java.util.concurrent.locks.ReentrantLock 
->> `->`java.util.concurrent.locks.ReentrantReadWriteLock.ReadLock
->> `->`java.util.concurrent.locks.ReentrantReadWriteLock.WriteLock
+>> `->`java.util.concurrent.locks.ReentrantLock  
+>> `->`java.util.concurrent.locks.ReentrantReadWriteLock.ReadLock   
+>> `->`java.util.concurrent.locks.ReentrantReadWriteLock.WriteLock   
  
  
 > 接口方法

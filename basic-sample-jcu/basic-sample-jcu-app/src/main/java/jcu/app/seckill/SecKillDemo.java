@@ -1,11 +1,7 @@
-package sample.jcu.countdownlatch;
-
-import com.sun.tools.internal.xjc.reader.xmlschema.bindinfo.BIConversion;
+package jcu.app.seckill;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CountDownLatch;
 
@@ -13,19 +9,19 @@ import java.util.concurrent.CountDownLatch;
  * @author soyona
  * @Package sample.jcu.countdownlatch
  * @Description:
- * @date 2015/5/23 22:21
+ * @date 2016/5/23 22:21
  */
-public class ConcurrentTest {
+public class SecKillDemo {
     //并发线程数
-    private static int thread_num = 200;
+    private static int thread_num = 2000;
 
     //控制同时并发
     private static CountDownLatch countDownLatch = new CountDownLatch(thread_num);
 
 
-    public static  final int total=20;
+    public static  final int total=50;
     //抢购商品数量
-    private static int product_num=20;
+    private static int product_num=50;
 
     //抢购结果记录
     private static ConcurrentHashMap result = new ConcurrentHashMap();

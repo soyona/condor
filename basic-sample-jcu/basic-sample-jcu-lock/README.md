@@ -1,23 +1,22 @@
-# Java语言提供的同步机制
+# 1 Java语言提供的同步机制
 > 多个线程访问临界资源时，通过同步机制来处理这 "多个线程"，Java提供了两种同步机制：
 - synchronized
 - Lock
 
-## synchronized
+## 1.1 synchronized
 >  被synchronized修饰的方法就是临界区，只允许一个线程访问该临界区；其他线程阻塞；
 >  注意：被synchronized修饰的静态方法和普通方法是有区别的。
 >  注意：synchronized的使用，让临界区尽量短。
-### synchronized实现生产者消费者
+### 1.1.1 synchronized实现生产者消费者
 > https://github.com/soyona/condor/tree/master/basic-sample-jcu/basic-sample-jcu-app/src/main/java/jcu/app/producer_consummer
-### 生产者消费者 为何使用while而不是if
-
+### 1.1.1 生产者消费者 为何使用while而不是if 
 > spurious wakeup 虚假唤醒
 > https://en.wikipedia.org/wiki/Spurious_wakeup
     >> 即使没有线程broadcast 或者signal条件变量，wait也可能返回。
 
 
-## Lock 接口
-> Introduce（翻译java doc）
+## 1.2 Lock 接口
+### 1.2.0 Introduce（翻译java doc）
 ```
 Lock提供了比synchronized更多的扩展性的锁操作，提供更灵活的结构，可以做不同的属性，可以支持多个与所对象关联的Condition对象。
 Lock是用来控制多线程访问共享资源的工具。一般来说，锁提供了对共享资源的互斥访问：同一时刻只能有一个线程获取锁，所有对该共享资源的访问都需要获取已经被获取的锁，
@@ -36,6 +35,7 @@ try {
 
 Lock还提供了其他功能，当尝试获取锁时可以被中断lockInterruptibly，并且，尝试获取锁可以超时tryLock(long, TimeUnit)
 ```
+### 1.2.1 实现类
 > java.util.concurrent.locks.Lock  has implements:
  
 >> `->`java.util.concurrent.locks.ReentrantLock     
@@ -43,7 +43,7 @@ Lock还提供了其他功能，当尝试获取锁时可以被中断lockInterrupt
 >> `->`java.util.concurrent.locks.ReentrantReadWriteLock.WriteLock      
  
  
-> 接口方法
+### 1.2.2 Lock接口方法
 ```java
 public interface Lock {
     //
@@ -60,14 +60,17 @@ public interface Lock {
     Condition newCondition();
 }
 ```
-> 
-### Lock与synchronized
+
+### 1.3 Lock与synchronized
 - Lock灵活，lock() unlock() 配对，unlock()在finally{}中
 - Lock加锁解锁都需手工，synchronized不需要
 - Lock对代码块加锁，synchronized对对象加锁
 - 当有多个读一个写时，Lock可以通过new Condition()实现读写分离
 
-### ReentrantLock 公平锁实现
+## 2 Lock子类ReentrantLock 
+### 2.1  公平锁实现
+#### 2.1.1 lock()
+
 > ReentrantLock.Sync extends AbstractQueuedSynchronizer
 
 > ReentrantLock.FairSync extends Sync
@@ -125,8 +128,13 @@ public final boolean hasQueuedPredecessors() {
         ((s = h.next) == null || s.thread != Thread.currentThread());
 }
 ```
-### ReentrantLock 非公平锁实现
+#### 2.1.2 release() 公平锁实现
+
+### 2.2  非公平锁实现 
+
 > ReentrantLock.NonfairSync extends Sync
+
+#### 2.2.1 lock()
 ```java
 /**
  * Performs lock.  Try immediate barge, backing up to normal
@@ -139,9 +147,12 @@ final void lock() {
         acquire(1);
 }
 ```
-## ReadWriteLock 接口
+#### 2.2.2 release()
+
+## 3 ReadWriteLock 接口
 > java.util.concurrent.locks.ReadWriteLock 子类
 >> `->` java.util.concurrent.locks.ReentrantReadWriteLock
+### 3.1 接口方法
 ```java
 public interface ReadWriteLock {
     Lock readLock();
@@ -151,7 +162,7 @@ public interface ReadWriteLock {
  
 > 实现例子：https://github.com/soyona/condor/tree/master/basic-sample-jcu/basic-sample-jcu-lock/src/main/java/sample/jcu/lock/readwritelock
 
-### 子类：ReentrantReadWriteLock
+### 3.2 实现类：ReentrantReadWriteLock
 > 实现：基于AQS实现，在一个整型变量上维护多种状态，state=c，c的高16为用于读锁，c的低16用于写锁  
 > CAS实现：  
 >> 写锁：compareAndSetState(c, c + 1)  
@@ -385,7 +396,8 @@ protected final int tryAcquireShared(int unused) {
         }
 ```
 >> 源码分析参考：https://blog.csdn.net/prestigeding/article/details/53286756
-# AbstractQueuedSynchronizer 抽象类
+
+# 5 AbstractQueuedSynchronizer 抽象类
 > java.util.concurrent.locks.AbstractQueuedSynchronizer 子类
 - ReentrantLock
 >> `->`java.util.concurrent.locks.ReentrantLock.Sync     

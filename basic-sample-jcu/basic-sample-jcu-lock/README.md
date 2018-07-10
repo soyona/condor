@@ -79,11 +79,12 @@ public interface ReadWriteLock {
 > 实现例子：https://github.com/soyona/condor/tree/master/basic-sample-jcu/basic-sample-jcu-lock/src/main/java/sample/jcu/lock/readwritelock
 
 ### 子类：ReentrantReadWriteLock
-> 实现：state=c，c的高16为用于读锁，c的低16用于写锁
-> CAS实现：
->> 写锁：compareAndSetState(c, c + 1)
->> 读锁：compareAndSetState(c, c + SHARED_UNIT)
-#### ReentrantReadWriteLock.Sync 内部类
+> 实现：state=c，c的高16为用于读锁，c的低16用于写锁  
+> CAS实现：  
+>> 写锁：compareAndSetState(c, c + 1)  
+>> 读锁：compareAndSetState(c, c + SHARED_UNIT)  
+
+#### ReentrantReadWriteLock.Sync 内部类 
 
 ```java
     static final int SHARED_SHIFT   = 16;

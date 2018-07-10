@@ -13,5 +13,6 @@ public class Decimal2Binary {
         for(int i=0; i<116; i++){
             System.out.println(i+" 的二进制表示为："+Integer.toBinaryString(i));
         }
+        System.out.println(Integer.toBinaryString(-2));
     }
 }

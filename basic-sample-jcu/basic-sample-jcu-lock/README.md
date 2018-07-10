@@ -60,12 +60,85 @@ public interface Lock {
     Condition newCondition();
 }
 ```
+> 
 ### Lock与synchronized
 - Lock灵活，lock() unlock() 配对，unlock()在finally{}中
 - Lock加锁解锁都需手工，synchronized不需要
 - Lock对代码块加锁，synchronized对对象加锁
 - 当有多个读一个写时，Lock可以通过new Condition()实现读写分离
 
+### ReentrantLock 公平锁实现
+> ReentrantLock.Sync extends AbstractQueuedSynchronizer
+
+> ReentrantLock.FairSync extends Sync
+```java
+final void lock() {
+            acquire(1);// 父类方法 
+}
+
+```
+> AbstractQueuedSynchronizer.acquire(int arg)
+```java
+public final void acquire(int arg) {
+        // tryAcquire(arg)子类实现
+        if (!tryAcquire(arg) &&
+            acquireQueued(addWaiter(Node.EXCLUSIVE), arg))
+            selfInterrupt();
+    }
+```
+> ReentrantLock.FairSync.tryAcquire(int acquires)
+```java
+/**
+ * Fair version of tryAcquire.  Don't grant access unless
+ * recursive call or no waiters or is first.
+ */
+protected final boolean tryAcquire(int acquires) {
+    final Thread current = Thread.currentThread();
+    int c = getState();
+    if (c == 0) {
+        if (!hasQueuedPredecessors() &&
+            compareAndSetState(0, acquires)) {
+            setExclusiveOwnerThread(current);
+            return true;
+        }
+    }
+    else if (current == getExclusiveOwnerThread()) {
+        int nextc = c + acquires;
+        if (nextc < 0)
+            throw new Error("Maximum lock count exceeded");
+        setState(nextc);
+        return true;
+    }
+    return false;
+}
+```
+
+```java
+public final boolean hasQueuedPredecessors() {
+    // The correctness of this depends on head being initialized
+    // before tail and on head.next being accurate if the current
+    // thread is first in queue.
+    Node t = tail; // Read fields in reverse initialization order
+    Node h = head;
+    Node s;
+    return h != t &&
+        ((s = h.next) == null || s.thread != Thread.currentThread());
+}
+```
+### ReentrantLock 非公平锁实现
+> ReentrantLock.NonfairSync extends Sync
+```java
+/**
+ * Performs lock.  Try immediate barge, backing up to normal
+ * acquire on failure.
+ */
+final void lock() {
+    if (compareAndSetState(0, 1))
+        setExclusiveOwnerThread(Thread.currentThread());
+    else
+        acquire(1);
+}
+```
 ## ReadWriteLock 接口
 > java.util.concurrent.locks.ReadWriteLock 子类
 >> `->` java.util.concurrent.locks.ReentrantReadWriteLock

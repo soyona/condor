@@ -78,14 +78,106 @@ public interface ReadWriteLock {
  
 > 实现例子：https://github.com/soyona/condor/tree/master/basic-sample-jcu/basic-sample-jcu-lock/src/main/java/sample/jcu/lock/readwritelock
 
+### 子类：ReentrantReadWriteLock
+> 实现：state=c，c的高16为用于读锁，c的低16用于写锁
+> CAS实现：
+>> 写锁：compareAndSetState(c, c + 1)
+>> 读锁：compareAndSetState(c, c + SHARED_UNIT)
+#### ReentrantReadWriteLock.Sync 内部类
 
+```java
+    static final int SHARED_SHIFT   = 16;
+    static final int SHARED_UNIT    = (1 << SHARED_SHIFT);
+    static final int MAX_COUNT      = (1 << SHARED_SHIFT) - 1;
+    static final int EXCLUSIVE_MASK = (1 << SHARED_SHIFT) - 1;
+    
+    /** Returns the number of shared holds represented in count  */
+    static int sharedCount(int c)    { return c >>> SHARED_SHIFT; }
+    /** Returns the number of exclusive holds represented in count  */
+    static int exclusiveCount(int c) { return c & EXCLUSIVE_MASK; }
+```   
+> static final int SHARED_UNIT    = (1 << SHARED_SHIFT);
+ 
+```text
+0000 0000 0000 0000 0000 0000 0000 0001    1
 
-  
-   
-   
+0000 0000 0000 0001 0000 0000 0000 0000    int SHARED_UNIT    = (1 << SHARED_SHIFT)
 
+0000 0000 0000 0000 1111 1111 1111 1111    int MAX_COUNT      = (1 << SHARED_SHIFT) - 1
+
+0000 0000 0000 0000 1111 1111 1111 1111    int EXCLUSIVE_MASK = (1 << SHARED_SHIFT) - 1;  
+
+```
+> ReentrantReadWriteLock.Sync.tryWriteLock
+
+```java
+    /**
+         * Performs tryLock for write, enabling barging in both modes.
+         * This is identical in effect to tryAcquire except for lack
+         * of calls to writerShouldBlock.
+         */
+    final boolean tryWriteLock() {
+        Thread current = Thread.currentThread();
+        int c = getState();
+        if (c != 0) {
+            int w = exclusiveCount(c);
+            if (w == 0 || current != getExclusiveOwnerThread())
+                return false;
+            if (w == MAX_COUNT)
+                throw new Error("Maximum lock count exceeded");
+        }
+        if (!compareAndSetState(c, c + 1))
+            return false;
+        setExclusiveOwnerThread(current);
+        return true;
+    }
+```
+> ReentrantReadWriteLock.Sync.tryReadLock
+
+```java
+    /**
+         * Performs tryLock for read, enabling barging in both modes.
+         * This is identical in effect to tryAcquireShared except for
+         * lack of calls to readerShouldBlock.
+         */
+    final boolean tryReadLock() {
+        Thread current = Thread.currentThread();
+        for (;;) {
+            int c = getState();
+            if (exclusiveCount(c) != 0 &&
+                getExclusiveOwnerThread() != current)
+                return false;
+            int r = sharedCount(c);
+            if (r == MAX_COUNT)
+                throw new Error("Maximum lock count exceeded");
+            if (compareAndSetState(c, c + SHARED_UNIT)) {
+                if (r == 0) {
+                    firstReader = current;
+                    firstReaderHoldCount = 1;
+                } else if (firstReader == current) {
+                    firstReaderHoldCount++;
+                } else {
+                    HoldCounter rh = cachedHoldCounter;
+                    if (rh == null || rh.tid != getThreadId(current))
+                        cachedHoldCounter = rh = readHolds.get();
+                    else if (rh.count == 0)
+                        readHolds.set(rh);
+                    rh.count++;
+                }
+                return true;
+            }
+        }
+    }
+```
 # AbstractQueuedSynchronizer 抽象类
-> java.util.concurrent.locks.AbstractQueuedSynchronizer 子类有
+> java.util.concurrent.locks.AbstractQueuedSynchronizer 子类
+- ReentrantLock
 >> `->`java.util.concurrent.locks.ReentrantLock.Sync     
 >>> `->`java.util.concurrent.locks.ReentrantLock.NonfairSync    
->>> `->`java.util.concurrent.locks.ReentrantLock.FairSync   
+>>> `->`java.util.concurrent.locks.ReentrantLock.FairSync
+- ReentrantReadWriteLock     
+>> `->`java.util.concurrent.locks.ReentrantReadWriteLock.Sync  
+>>> `->`java.util.concurrent.locks.ReentrantReadWriteLock.FairSync  
+>>> `->`java.util.concurrent.locks.ReentrantReadWriteLock.NonfairSync  
+
+

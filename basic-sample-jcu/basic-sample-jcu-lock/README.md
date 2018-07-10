@@ -79,17 +79,24 @@ public interface ReadWriteLock {
 > 实现例子：https://github.com/soyona/condor/tree/master/basic-sample-jcu/basic-sample-jcu-lock/src/main/java/sample/jcu/lock/readwritelock
 
 ### 子类：ReentrantReadWriteLock
-> 实现：state=c，c的高16为用于读锁，c的低16用于写锁  
+> 实现：基于AQS实现，在一个整型变量上维护多种状态，state=c，c的高16为用于读锁，c的低16用于写锁  
 > CAS实现：  
 >> 写锁：compareAndSetState(c, c + 1)  
->> 读锁：compareAndSetState(c, c + SHARED_UNIT)  
+>> 读锁：compareAndSetState(c, c + SHARED_UNIT) ,
+>>> 读锁增加一个，需增加一个SHARED_UNIT（c+SHARED_UNIT）/int=65536,
+>>> 若只有一个读锁，那么c=SHARED_UNIT（0000 0000 0000 000`1` 0000 0000 0000 0000）
+>>> 获取读锁数量：通过 c >>> SHARED_SHIFT, 结果为：1（0000 0000 0000 0000 0000 0000 0000 000`1`） 
 
 #### ReentrantReadWriteLock.Sync 内部类 
 
 ```java
+    //表示读锁占用的位数
     static final int SHARED_SHIFT   = 16;
+    //增加一个读锁,compareAndSetState(c, c + SHARED_UNIT),需要增加的单位是SHARED_UNIT
     static final int SHARED_UNIT    = (1 << SHARED_SHIFT);
+    //最大的读锁数量 ：0000 0000 0000 0000 1111 1111 1111 1111
     static final int MAX_COUNT      = (1 << SHARED_SHIFT) - 1;
+    //写锁掩码 16个1，写锁的数量：c & EXCLUSIVE_MASK
     static final int EXCLUSIVE_MASK = (1 << SHARED_SHIFT) - 1;
     
     /** Returns the number of shared holds represented in count  */
@@ -135,7 +142,7 @@ public interface ReadWriteLock {
 ```
 > ReentrantReadWriteLock.Sync.tryReadLock
 
-```java
+```text
     /**
          * Performs tryLock for read, enabling barging in both modes.
          * This is identical in effect to tryAcquireShared except for

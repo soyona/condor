@@ -70,7 +70,7 @@ protected final boolean compareAndSetState(int expect, int update) {
         return unsafe.compareAndSwapInt(this, stateOffset, expect, update);
     }
 ```
-## 3 AQS 在exclusive mode下 获取锁
+## 3.1 AQS 在exclusive mode下 获取锁
 ```text
 public final void acquire(int arg) {
     if (!tryAcquire(arg) &&
@@ -132,6 +132,13 @@ private Node enq(final Node node) {
 ```
 ### 第三步： 入队线程获取锁，处理 获取成功和失败的 线程acquireQueued
 > acquireQueued 分析：对于已经入队的线程 以exclusive and uninterruptible mode 获取锁
+```text
+ 该方法的作用，是入队的每个线程形成自旋行为：
+ 1、要么在自旋中永生（获取锁-结束自旋）；
+ 1.1 获取锁后 设置为head节点
+ 2、要么在自旋中沉沦（park等待被唤醒，继续自旋）；
+ 
+```
 
 ```text
 final boolean acquireQueued(final Node node, int arg) {
@@ -149,7 +156,7 @@ final boolean acquireQueued(final Node node, int arg) {
                 }
                 //2. 如果当前节点的 前驱节点 不是头节点，也就是没有获取锁，当前线程节点睡眠，禁止调度，
                 if (shouldParkAfterFailedAcquire(p, node) &&
-                    parkAndCheckInterrupt())
+                    parkAndCheckInterrupt())//parkAndCheckInterrupt 是等待唤醒，由release方法中的 LockSupport.unpark(t)唤醒
                     interrupted = true;
             }
         } finally {
@@ -166,16 +173,141 @@ if(获取锁失败 && 加入队列){
     中断当前线程
 }
 ```
-## AQS 在exclusive mode下 释放锁
+## 3.2 AQS 在exclusive mode下 释放锁
 ```text
+/**
+* 尝试释放锁，成功 则 唤醒FIFO队列中头节点的后继节点。
+*
+**/
 public final boolean release(int arg) {
-        if (tryRelease(arg)) {
+        if (tryRelease(arg)) {// 尝试释放锁，由子类实现
             Node h = head;
-            if (h != null && h.waitStatus != 0)
-                unparkSuccessor(h);
+            if (h != null && h.waitStatus != 0)// 1. 如果 头节点不为null
+                unparkSuccessor(h);// 1.1 唤醒头节点的 后继节点
             return true;
         }
+        // 释放不成功，返回false
         return false;
+}
+
+
+/**
+ * Wakes up node's successor, if one exists.
+ *
+ * @param node the node
+ */
+private void unparkSuccessor(Node node) {
+    /*
+     * If status is negative (i.e., possibly needing signal) try
+     * to clear in anticipation of signalling.  It is OK if this
+     * fails or if status is changed by waiting thread.
+     */
+    int ws = node.waitStatus;// 获取node节点的等待状态
+    if (ws < 0)// 如果状态小于0，
+        compareAndSetWaitStatus(node, ws, 0);//设置node等待状态
+
+    /*
+     * Thread to unpark is held in successor, which is normally
+     * just the next node.  But if cancelled or apparently null,
+     * traverse backwards from tail to find the actual
+     * non-cancelled successor.
+     */
+    Node s = node.next; // 获取node的后继节点
+    //找出可被唤醒的后继节点（那些状态 waitStatus<=0 的node）
+    if (s == null || s.waitStatus > 0) { // 如果后继节点为null，或者 后继节点的状态大于0
+        s = null;
+        for (Node t = tail; t != null && t != node; t = t.prev)
+            if (t.waitStatus <= 0)
+                s = t;
+    }
+    // 找到可被唤醒的节点，唤醒该节点线程
+    if (s != null)
+        LockSupport.unpark(s.thread);
+}
+```
+
+## 4.1 AQS Shared mode下获取锁
+```text
+区别独占模式：
+1. 如果某一线程 进行读操作，那么 其他写操作阻塞
+2. 如果某一线程 进行读操作，那么 其他读操作可获取锁
+3. 如果某一线程 进行写操作，那么 其他读操作阻塞，写操作阻塞
+```
+
+```text
+public final void acquireShared(int arg) {
+        if (tryAcquireShared(arg) < 0)//尝试获取共享状态，自旋模式，非阻塞
+            doAcquireShared(arg);// 如果获取失败，加入队列，开启自旋
+}
+
+
+private void doAcquireShared(int arg) {
+    final Node node = addWaiter(Node.SHARED);//当前线程加入队列
+    boolean failed = true;
+    try {
+        boolean interrupted = false;
+        // 自旋
+        for (;;) {
+            final Node p = node.predecessor();// 获取当前节点的前驱节点
+            if (p == head) { // 如果其前驱节点是头节点
+                int r = tryAcquireShared(arg);//再次尝试获取锁
+                if (r >= 0) {//如果获取锁成功，退出自旋
+                    setHeadAndPropagate(node, r);
+                    p.next = null; // help GC
+                    if (interrupted)
+                        selfInterrupt();
+                    failed = false;
+                    return;
+                }
+                // 如果获取锁失败，往下执行，阻塞，等待唤醒
+            }
+            //1.如果前驱节点不是头节点，阻塞，等待唤醒
+            //2.如果获取锁失败，往下执行，阻塞，等待唤醒
+            //2.1 这里的阻塞通过 LockSupport.park()实现
+            if (shouldParkAfterFailedAcquire(p, node) &&
+                parkAndCheckInterrupt())
+                interrupted = true;
+        }
+    } finally {
+        if (failed)
+            cancelAcquire(node);
+    }
+}
+```
+
+## 4.2 AQS Shared mode下释放锁
+```text
+public final boolean releaseShared(int arg) {
+    if (tryReleaseShared(arg)) {//尝试释放锁，
+        doReleaseShared();
+        return true;
+    }
+    return false;
+}
+
+/**
+* 自旋，找出唤醒哪个线程节点
+*
+*/
+private void doReleaseShared() {
+    for (;;) {
+        Node h = head;// 获取
+        if (h != null && h != tail) {//如果头节点不为null 并且不等于tail节点
+            int ws = h.waitStatus;
+            if (ws == Node.SIGNAL) {//Y:如果头节点是Node.SIGNAL状态，唤醒该节点
+                if (!compareAndSetWaitStatus(h, Node.SIGNAL, 0))//如果设置状态不成功，continue，继续自旋
+                    continue;            // loop to recheck cases
+                unparkSuccessor(h);// 唤醒后继节点
+            }
+            //N: 如果头节点状态 ==0，且设置状态不成功，continue，继续自旋
+            else if (ws == 0 &&
+                     !compareAndSetWaitStatus(h, 0, Node.PROPAGATE))
+                continue;                // loop on failed CAS
+        }
+        //如果头节点有更新，结束自旋
+        if (h == head)                   // loop if head changed
+            break;
+    }
 }
 ```
 > 参考 ifeve 总结的伪代码：

@@ -4,9 +4,13 @@
 ## 2 自旋锁的种类
 ## 3 阻塞锁
 ## 4 可重入锁
+```text
+单个线程可重复获取锁
+```
+##### ReentrantLock
 ## 5 独占锁
-### 5.1 ReentrantLock
-### 5.2 ReentrantReadWriteLock.WriteLock
+##### 5.1 ReentrantLock
+##### 5.2 ReentrantReadWriteLock.WriteLock
 ## 6 共享锁
 ##### 6.1 ReentrantReadWriteLock.ReadLock
 ##### 6.2 CyclicBarrier
@@ -17,7 +21,7 @@
 ## 9 悲观锁
 ## 10 乐观锁
 ## 11 公平锁
-> 定义：在绝对时间上，先对锁请求的线程先被满足，即等待时间最长的线程最有机会获取锁，是有序的。
+> 定义：在绝对时间上，先对锁请求的线程先被满足，即等待时间最长的线程（队列头）最有机会获取锁，是有序的。
  
 > 性能：
 ```
@@ -30,7 +34,7 @@
 ```
 ### 11.1 ReentrantLock.FairSync
 ## 12 非公平锁
-> 定义：无序的，相对`公平锁`的定义。
+> 定义：无序的，不论是不是在队列头都能获取锁。相对`公平锁`的定义。
 
 ### 12.1 ReentrantLock.NonFairSync 
 > ReentrantLock 默认为非公平锁 

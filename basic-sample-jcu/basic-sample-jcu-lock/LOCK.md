@@ -1,6 +1,8 @@
 # 有关锁 
 > Reference: http://ifeve.com/java_lock_see/
 ## 1 自旋锁
+> Reference: http://ifeve.com/java_lock_see1/
+> [代码分析](https://github.com/soyona/condor/blob/master/basic-sample-jcu/basic-sample-jcu-lock/src/main/java/sample/jcu/lock/SpinLock.java)
 ## 2 自旋锁的种类
 ## 3 阻塞锁
 ## 4 可重入锁
@@ -17,7 +19,7 @@
 ##### 6.3 CountDownLatch
 ##### 6.4 Semaphore
 ## 7 读写锁
-## 8 互斥锁
+## 8 互斥锁(独占)
 ## 9 悲观锁
 ## 10 乐观锁
 ## 11 公平锁

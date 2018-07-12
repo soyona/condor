@@ -8,4 +8,5 @@ A flexible alternative to subclassing for extending functionality should be prov
 ```
 
 > UML
-[UML](https://en.wikipedia.org/wiki/File:Decorator_UML_class_diagram.svg)
+
+![UML](https://upload.wikimedia.org/wikipedia/commons/e/e9/Decorator_UML_class_diagram.svg)

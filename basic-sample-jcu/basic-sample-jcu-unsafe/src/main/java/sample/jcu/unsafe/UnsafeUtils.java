@@ -16,6 +16,7 @@ public class UnsafeUtils {
     private static Unsafe getInstance(){
         try {
             Constructor constructor = Unsafe.class.getDeclaredConstructor();
+            constructor.setAccessible(true);
             Unsafe unsafe = (Unsafe) constructor.newInstance();
             return unsafe;
         } catch (NoSuchMethodException e) {

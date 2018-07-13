@@ -40,3 +40,7 @@ Because other transactions cannot update or delete the rows in the range,
 the current transaction avoids any nonrepeatable reads. 
 Because other transactions cannot insert any rows in the range, the current transaction avoids any phantoms.
 The transaction releases its lock when it is committed or rolled back.
+
+# nonrepeatable read & phantom read
+> nonrepeatable read for update and delete
+> phantom read for insert

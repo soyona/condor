@@ -21,6 +21,7 @@
         <module>basic-sample-dp-singleton</module>
         <module>basic-sample-dp-prototype</module>
         <module>basic-sample-dp-bridge</module>
+        <module>basic-sample-dp-decorator</module>
     </modules>
 
 </project>

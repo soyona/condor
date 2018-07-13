@@ -3,7 +3,9 @@ package sample.jcu.unsafe;
 import sun.misc.Unsafe;
 
 import java.io.Serializable;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * @author soyona
@@ -13,7 +15,7 @@ import java.lang.reflect.Field;
  */
 public class AtomicOrder implements Serializable{
     //初始化 权限问题，会检验类加载器的权限，如果开发者使用，采用另外一种方式
-    private static final Unsafe unsafe = getUnsafe();
+    private static final Unsafe unsafe = getUnsafe("");
     private static long orderNooffset;
     private String orderNo;
     public AtomicOrder(String orderNo){
@@ -33,6 +35,28 @@ public class AtomicOrder implements Serializable{
         } catch (NoSuchFieldException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * getting the instance using private constructor
+     * @return
+     */
+    static Unsafe getUnsafe(String b){
+        try {
+            Constructor constructor = Unsafe.class.getDeclaredConstructor();
+            constructor.setAccessible(true);
+            Unsafe unsafe = (Unsafe)constructor.newInstance();
+            return unsafe;
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
             e.printStackTrace();
         }
         return null;

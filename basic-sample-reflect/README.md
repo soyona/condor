@@ -1,26 +1,26 @@
-总结
-===
-反射用途：
----
+# 1. Reflect
+
+## 1.1 Usage：
+
 - 运行时创建类新实例对象、调用类的方法、修改对象的属性
 - 获取类的信息
 - 动态代理
 - 获取运行时类的真实信息：编译类型/运行时类型
 
-反射优缺点：
----
+## 1.2 反射优缺点：
+
 - 反射效率低、破坏封装、不安全(可访问私有方法)
 
 
-获取Class三种方式：
----
+## 1.3 获取Class三种方式：
+
 - Object.getClass()
 - X.class
 - Class.forName()
 
 
-Class API汇总：
----
+## 1.4 Class API汇总：
+
 
 - Constructor
     + getConstructor 
@@ -72,3 +72,20 @@ Class API汇总：
     + getClasses
         * public Class<?>[] getClasses()
         * 类中定义的public的 成员类 或者 接口
+
+# 2. ReflectionFactory [source](http://www.docjar.com/html/api/sun/reflect/ReflectionFactory.java.html)
+> The methods in this class are extremely unsafe and can cause unversion of both the language and the verifier.
+> for this reason,they are all instance methods,and access to the constructor of this factory is guarded by a 
+> security check,in similar style to sun.misc.Unsafe
+
+> [kanglei's code](./src/main/java/sample/reflectionfactory/ReflectionFactoryTest.java)
+
+```text
+Constructor constructor = ReflectionFactory.getReflectionFactory().newConstructorForSerialization(Order.class,Object.class.getConstructor());
+constructor.setAccessible(true);
+Order order = (Order)constructor.newInstance();
+assertEquals("10",order.getOrderNo());// uninitial
+```
+
+
+       

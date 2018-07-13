@@ -37,7 +37,10 @@
         <module>basic-sample-hessian</module>
         <module>basic-sample-rpc</module>
         <module>basic-sample-rmi</module>
-        <module>basic-sample-design-pattern</module>
+        <module>basic-sample-dp</module>
+        <module>basic-sample-os</module>
+        <module>basic-sample-guava</module>
+        <module>basic-sample-lb</module>
     </modules>
 
 </project>

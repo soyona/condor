@@ -42,7 +42,7 @@ public static boolean isSystemDomainLoader(ClassLoader var0) {
 }
 ```
 ## 1.3 开发者如果获取Unsafe实例
-> [代码实现](https://github.com/soyona/condor/blob/master/basic-sample-jcu/basic-sample-jcu-lock/src/main/java/sample/jcu/unsafe/AtomicOrder.java)
+> [代码实现](./src/main/java/sample/jcu/unsafe/AtomicOrder.java)
 
 ```text
 /**

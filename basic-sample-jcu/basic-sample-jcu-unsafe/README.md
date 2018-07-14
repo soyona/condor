@@ -151,10 +151,25 @@ public static boolean isSystemDomainLoader(ClassLoader var0) {
     @Deprecated
     public native boolean tryMonitorEnter(Object var1);
     
+    //Will atomicly read a value of type XXX from target's address at the specified offset and set the given value if the current value at this offset equals the expected value.
+    
+    /**
+     * Atomically update Java variable to <tt>x</tt> if it is currently
+     * holding <tt>expected</tt>.
+     * @return <tt>true</tt> if successful
+     */
     public final native boolean compareAndSwapObject(Object var1, long var2, Object var4, Object var5);
-
+    /**
+     * Atomically update Java variable to <tt>x</tt> if it is currently
+     * holding <tt>expected</tt>.
+     * @return <tt>true</tt> if successful
+     */
     public final native boolean compareAndSwapInt(Object var1, long var2, int var4, int var5);
-
+    /**
+     * Atomically update Java variable to <tt>x</tt> if it is currently
+     * holding <tt>expected</tt>.
+     * @return <tt>true</tt> if successful
+     */
     public final native boolean compareAndSwapLong(Object var1, long var2, long var4, long var6);
 
 ```
@@ -317,6 +332,35 @@ public static boolean isSystemDomainLoader(ClassLoader var0) {
     
     public native void putDouble(Object var1, long var2, double var4);
 ```
+```text
+   /**
+     * Fetches a reference value from a given Java variable, with volatile
+     * load semantics. Otherwise identical to {@link #getObject(Object, long)}
+     * Will read a value of type XXX from target's address at the specified offset and not hit any thread local caches.
+     */
+    public native Object getObjectVolatile(Object o, long offset);
+
+    /**
+     * Stores a reference value into a given Java variable, with
+     * volatile store semantics. Otherwise identical to {@link #putObject(Object, long, Object)}
+     * Will place value at target's address at the specified offset and not hit any thread local caches.
+     */
+    public native void    putObjectVolatile(Object o, long offset, Object x);
+```
+
+```text
+    /**
+     * Version of {@link #putObjectVolatile(Object, long, Object)}
+     * that does not guarantee immediate visibility of the store to
+     * other threads. This method is generally only useful if the
+     * underlying field is a Java volatile (or if an array cell, one
+     * that is otherwise only accessed using volatile accesses).
+     */
+    public native void    putOrderedObject(Object o, long offset, Object x);
+
+    /** Ordered/Lazy version of {@link #putIntVolatile(Object, long, int)}  */
+    public native void    putOrderedInt(Object o, long offset, int x);
+```
 ## 2.7 Thread
 ```text
     public native void unpark(Object var1);
@@ -413,6 +457,7 @@ class  DirectIntArray{
             return UnsafeUtils.unsafe.getInt(index(index));
         }
 
+        
         public void destroy() {
             UnsafeUtils.unsafe.freeMemory(startIndex);
         }
@@ -435,6 +480,7 @@ class  DirectIntArray{
     }
 ```
 
+
 #### 3.2.2.1 How to computing an object's size
 ```text
 The most conanical [kəˈnɒnɪkl] way of computing an object's size is using the Instrumented class from Java's attach API 
@@ -443,5 +489,18 @@ which offers a dedicated method for this purpose called getObjectSize.
 > [See basic-sample-object](https://github.com/soyona/condor/tree/master/basic-sample-object)
 
 
+## 3.3 Throwing Checked Exceptions Without Declaration
+```text
+There are some other interesting methods to find in Unsafe. Did you ever want to throw a specific exception to be handled in a lower layer but you high layer interface type did not declare this checked exception? 
+```
+```text
+@Test(expected = Exception.class)
+public void testThrowChecked() throws Exception {
+  throwChecked();
+}
 
+public void throwChecked() {
+  unsafe.throwException(new Exception());
+}
+```
 

@@ -504,3 +504,10 @@ public void throwChecked() {
 }
 ```
 
+## 3.4 Native Concurrency
+```text
+Unsafe.park/unpark
+Also, monitors can be acquired directly by using Unsafe using monitorEnter(Object), monitorExit(Object) and tryMonitorEnter(Object). 
+```
+
+

@@ -12,6 +12,20 @@ public class SpinLock {
     private AtomicReference<Thread> sign =new AtomicReference<>();
 
     /**
+     * AtomicReference 实例属性
+     * private volatile V value;
+     *
+     * private static final long valueOffset;
+
+     通过反射获取属性value，再根据unsafe.objectFieldOffset获取该Field的偏移量
+     static {
+     try {
+     valueOffset = unsafe.objectFieldOffset
+     (AtomicReference.class.getDeclaredField("value"));
+     } catch (Exception ex) { throw new Error(ex); }
+     }
+     */
+    /**
      *
      * unsafe.compareAndSwapObject(this, valueOffset, expect, update)
      *
@@ -21,6 +35,12 @@ public class SpinLock {
     public void lock(){
         Thread current = Thread.currentThread();
         //CAS不成功 继续循环，CAS成功 结束循环
+        /**
+         * Atomically sets the value to the given updated value, if the current value == expected value
+         *  public final boolean compareAndSet(V expect, V update) {
+                return unsafe.compareAndSwapObject(this, valueOffset, expect, update);
+            }
+         */
         while(!sign .compareAndSet(null, current)){
         }
     }

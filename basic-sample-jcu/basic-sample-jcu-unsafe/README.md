@@ -160,30 +160,131 @@ public static boolean isSystemDomainLoader(ClassLoader var0) {
 ```
 
 ## 2.6 Memory
-```text
+```
+    /**
+     * Allocates a new block of native memory, of the given size in bytes.  The
+     * contents of the memory are uninitialized; they will generally be
+     * garbage.  The resulting native pointer will never be zero, and will be
+     * aligned for all value types.  Dispose of this memory by calling {@link
+     * #freeMemory}, or resize it with {@link #reallocateMemory}.
+     *
+     * @throws IllegalArgumentException if the size is negative or too large
+     *         for the native size_t type
+     *
+     * @throws OutOfMemoryError if the allocation is refused by the system
+     *
+     * @see #getByte(long)
+     * @see #putByte(long, byte)
+     */
     public native long allocateMemory(long var1);
-
+```
+```
     public native long reallocateMemory(long var1, long var3);
-
+    /**
+     * Sets all bytes in a given block of memory to a fixed value
+     * (usually zero).
+     *
+     * <p>This method determines a block's base address by means of two parameters,
+     * and so it provides (in effect) a <em>double-register</em> addressing mode,
+     * as discussed in {@link #getInt(Object,long)}.  When the object reference is null,
+     * the offset supplies an absolute base address.
+     *
+     * <p>The stores are in coherent (atomic) units of a size determined
+     * by the address and length parameters.  If the effective address and
+     * length are all even modulo 8, the stores take place in 'long' units.
+     * If the effective address and length are (resp.) even modulo 4 or 2,
+     * the stores take place in units of 'int' or 'short'.
+     *
+     * @since 1.7
+     */
     public native void setMemory(Object var1, long var2, long var4, byte var6);
-
+```
+```
+    /**
+     * Sets all bytes in a given block of memory to a fixed value
+     * (usually zero).  This provides a <em>single-register</em> addressing mode,
+     * as discussed in {@link #getInt(Object,long)}.
+     *
+     * <p>Equivalent to <code>setMemory(null, address, bytes, value)</code>.
+     */
     public void setMemory(long var1, long var3, byte var5) {
         this.setMemory((Object)null, var1, var3, var5);
     }
+```
+```
 
+    /**
+     * Sets all bytes in a given block of memory to a copy of another
+     * block.
+     *
+     * <p>This method determines each block's base address by means of two parameters,
+     * and so it provides (in effect) a <em>double-register</em> addressing mode,
+     * as discussed in {@link #getInt(Object,long)}.  When the object reference is null,
+     * the offset supplies an absolute base address.
+     *
+     * <p>The transfers are in coherent (atomic) units of a size determined
+     * by the address and length parameters.  If the effective addresses and
+     * length are all even modulo 8, the transfer takes place in 'long' units.
+     * If the effective addresses and length are (resp.) even modulo 4 or 2,
+     * the transfer takes place in units of 'int' or 'short'.
+     *
+     * @since 1.7
+     */
     public native void copyMemory(Object var1, long var2, Object var4, long var5, long var7);
+```
 
+```
+    /**
+     * Sets all bytes in a given block of memory to a copy of another
+     * block.  This provides a <em>single-register</em> addressing mode,
+     * as discussed in {@link #getInt(Object,long)}.
+     *
+     * Equivalent to <code>copyMemory(null, srcAddress, null, destAddress, bytes)</code>.
+     */
     public void copyMemory(long var1, long var3, long var5) {
         this.copyMemory((Object)null, var1, (Object)null, var3, var5);
     }
-
+```
+    
+```
+    /**
+     * Disposes of a block of native memory, as obtained from {@link
+     * #allocateMemory} or {@link #reallocateMemory}.  The address passed to
+     * this method may be null, in which case no action is taken.
+     *
+     * @see #allocateMemory
+     */
     public native void freeMemory(long var1);
-    
-    
+``` 
+  
+```    
     public native int getInt(Object var1, long var2);
+```
+```
 
+    /**
+     * Stores a value into a given Java variable.
+     * <p>
+     * The first two parameters are interpreted exactly as with
+     * {@link #getInt(Object, long)} to refer to a specific
+     * Java variable (field or array element).  The given value
+     * is stored into that variable.
+     * <p>
+     * The variable must be of the same type as the method
+     * parameter <code>x</code>.
+     *
+     * @param o Java heap object in which the variable resides, if any, else
+     *        null
+     * @param offset indication of where the variable resides in a Java heap
+     *        object, if any, else a memory address locating the variable
+     *        statically
+     * @param x the value to store into the indicated Java variable
+     * @throws RuntimeException No defined exceptions are thrown, not even
+     *         {@link NullPointerException}
+     */
     public native void putInt(Object var1, long var2, int var4);
-
+```
+```
     public native Object getObject(Object var1, long var2);
 
     public native void putObject(Object var1, long var2, Object var4);
@@ -251,6 +352,96 @@ public static void main(String[] args) {
 > [ReflectionFactoryTest Code](https://github.com/soyona/condor/blob/master/basic-sample-reflect/src/main/java/sample/reflectionfactory/ReflectionFactoryTest.java)
 
 ## 3.2 Native Memory Allocation
+> If you want to allocate an array  that has more than Integer.MAX_VALUE entries.You can create such an array by allocating native memory.
+
+### 3.2.1 Allocate in VM
+```text
+@Test
+public void arrayTest(){
+    // 2的31次幂-1，1Byte=8bit，1KByte = 1024Byte = 2的10次Byte
+    // 1MByte = 1024 * 1KByte = 2的20次Byte
+    // 1GByte = 1024 * 1MByte = 2的30次Byte
+    // 2GByte = 1GByte * 2    = 2的31次Byte
+    // Integer.MAX_VALUE
+    long unit = 1L;
+    long int_max = (unit << 31) -1;
+    System.out.println(int_max);
+    System.out.println(Integer.MAX_VALUE);
+    // 大约2G-1内存，在堆中无法创建
+    byte[] strings = new byte[Integer.MAX_VALUE];
+}
+```
+```text
+<font color='red'> You could not create an array that more than Integer.MAX_VALUE entries. Otherwise, you'll get the exception :
+'java.lang.OutOfMemoryError: Requested array size exceeds VM limit' </font>
+```
+```text
+You could not create an array that more than Integer.MAX_VALUE entries. Otherwise, you'll get the exception :
+java.lang.OutOfMemoryError: Requested array size exceeds VM limit
+```
+### 3.2.2 Allocate in native memory
+```
+Native memory allocation is used for example direct byte buffers that are offered in Java's NIO packages.
+Other than heap memory,native memory is not part of the heap area and can be used non-exclusively for example
+for communicating with other processes.
+ 
+As a result, Java's heap space is in competition with the native space: the more memory you assign to the JVM,the less native memory is left. 
+```
+```text
+Let's look up an example for using native memory in Java with creating the mentioned oversized array:
+
+class  DirectIntArray{
+        //Every entry size is :4byte
+        private final static long INT_SIZE_IN_BYTES = 4;
+        private final long startIndex;
+        public DirectIntArray(long size) {
+            // the native pointer
+            startIndex = UnsafeUtils.unsafe.allocateMemory(size * INT_SIZE_IN_BYTES);
+            // initialize to 0
+            UnsafeUtils.unsafe.setMemory(startIndex, size * INT_SIZE_IN_BYTES, (byte) 0);
+        }
+
+        private long index(long offset) {
+            return startIndex + offset * INT_SIZE_IN_BYTES;
+        }
+
+        public void setValue(long index, int value) {
+            UnsafeUtils.unsafe.putInt(index(index), value);
+        }
+
+        public int getValue(long index) {
+            return UnsafeUtils.unsafe.getInt(index(index));
+        }
+
+        public void destroy() {
+            UnsafeUtils.unsafe.freeMemory(startIndex);
+        }
+    }
+
+    @Test
+    public void testDirectIntArray(){
+        //allocate 2GB * 4 memory,
+        long maximum = Integer.MAX_VALUE + 1L;
+        DirectIntArray directIntArray = new DirectIntArray(maximum);
+        directIntArray.setValue(0L, 10);
+        directIntArray.setValue(maximum, 20);
+        directIntArray.setValue(maximum+1, 30);
+
+        assertEquals(10, directIntArray.getValue(0L));
+        assertEquals(20, directIntArray.getValue(maximum));
+
+        assertEquals(30, directIntArray.getValue(maximum+1));
+        directIntArray.destroy();
+    }
+```
+
+#### 3.2.2.1 How to computing an object's size
+```text
+The most conanical [kəˈnɒnɪkl] way of computing an object's size is using the Instrumented class from Java's attach API 
+which offers a dedicated method for this purpose called getObjectSize. 
+``` 
+> [See basic-sample-object](https://github.com/soyona/condor/tree/master/basic-sample-object)
+
 
 
 

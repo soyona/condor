@@ -7,10 +7,6 @@
 > [source code markOop.hpp](http://hg.openjdk.java.net/jdk8/jdk8/hotspot/file/87ee5ee27509/src/share/vm/oops/markOop.hpp)
  
 > [Object's Header](https://wiki.openjdk.java.net/download/attachments/11829266/Synchronization.gif?version=4&modificationDate=1208918680000&api=v2)
- 
-> 
-![Object's Head figure](https://github.com/soyona/condor/blob/master/basic-sample-object/src/main/resources/Object-Header.png)
-
 ```text
 The structure of the object header is defined in the classes oopDesc and markOopDesc, 
 the code for thin locks is integrated in the interpreter and compilers, and the class ObjectMonitor represents inflated locks. 
@@ -18,6 +14,11 @@ Biased locking is centralized in the class BiasedLocking. It can be enabled via 
  It is enabled by default for Java 6 and Java 7, but activated only some seconds after the application startup. 
 Therefore, beware of short-running micro-benchmarks. If necessary, turn off the delay using the flag -XX:BiasedLockingStartupDelay=0.
 ```
+> 
+![Object's Head figure](https://github.com/soyona/condor/blob/master/basic-sample-object/src/main/resources/Object-Header.png)
+![64 bits](https://github.com/soyona/condor/blob/master/basic-sample-object/src/main/resources/Object's64.png)
+![128 bits](https://github.com/soyona/condor/blob/master/basic-sample-object/src/main/resources/Object's128.png)
+![96 bits](https://github.com/soyona/condor/blob/master/basic-sample-object/src/main/resources/Object's96.png)
 
 
 ```text

@@ -8,7 +8,7 @@
  
 > [Object's Header](https://wiki.openjdk.java.net/download/attachments/11829266/Synchronization.gif?version=4&modificationDate=1208918680000&api=v2)
  
-> [Object's Head figure](./src/main/resources/Object-Header.gif)
+> [Object's Head figure](./src/main/resources/Object-Header.png)
 
 ```text
 The structure of the object header is defined in the classes oopDesc and markOopDesc, 

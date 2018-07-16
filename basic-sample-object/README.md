@@ -8,7 +8,8 @@
  
 > [Object's Header](https://wiki.openjdk.java.net/download/attachments/11829266/Synchronization.gif?version=4&modificationDate=1208918680000&api=v2)
  
-> [Object's Head figure](https://github.com/soyona/condor/blob/master/basic-sample-object/src/main/resources/Object-Header.png)
+> 
+![Object's Head figure](https://github.com/soyona/condor/blob/master/basic-sample-object/src/main/resources/Object-Header.png)
 
 ```text
 The structure of the object header is defined in the classes oopDesc and markOopDesc, 
@@ -17,7 +18,8 @@ Biased locking is centralized in the class BiasedLocking. It can be enabled via 
  It is enabled by default for Java 6 and Java 7, but activated only some seconds after the application startup. 
 Therefore, beware of short-running micro-benchmarks. If necessary, turn off the delay using the flag -XX:BiasedLockingStartupDelay=0.
 ```
-### 2.1.1 mark word
+
+
 ```text
 The mark word has word size (4 byte on 32 bit architectures, 8 byte on 64 bit architectures) and
 ```

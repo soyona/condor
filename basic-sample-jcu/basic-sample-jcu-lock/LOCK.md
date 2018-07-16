@@ -7,8 +7,16 @@
 ## 2 自旋锁的种类
 ## 3 阻塞锁
 ## 4 可重入锁
+### 4.1 Synchronized 内置锁
 ```text
-单个线程可重复获取锁
+实现：每个锁关联一个计数器和Owner线程，重入时，判断Owner线程是否是当前线程。
+```
+### 4.1 ReentrantLock 可重入
+```text
+    /**
+     * The current owner of exclusive mode synchronization.
+     */
+    private transient Thread exclusiveOwnerThread;
 ```
 ##### ReentrantLock
 ## 5 独占锁

@@ -49,6 +49,20 @@ Other thread trying to access the object will block until the thread holding the
 >[Underlying Analysis](https://www.artima.com/insidejvm/ed2/threadsynchP.html)
 
 ### 1.3.0 What's Monitor
-[What's Monitor](https://github.com/soyona/condor/tree/master/basic-sample-object#3objectmonitor)
+> [What's Monitor](https://github.com/soyona/condor/tree/master/basic-sample-object#3objectmonitor)
+
 ### 1.3.1 Synchronized Statements
+
+|Opcode|Operand(s)|Description|
+|-|:-:|:-:|
+|monitorenter|none|pop objectref, acquire the lock associated with objectref|
+|monitorexit|none|pop objectref, acquire the lock associated with objectref|
+
 ### 1.3.2 Synchronized Methods
+```text
+When the virtual machine resovles the symbolic reference to a method,it determines whether the method is synchronized.
+if so ,the virtual machine acquires a lock before invoking the method.
+For instance method,the VM acquires the lock associated with the object upon which the method is beging invoked.
+For a class method,the VM acquires the lock associated with the class to which the method belongs.
+After a asynchronied method completes,whether it completes by returning    or by throwing an exception,the VM releases the lock.
+```

@@ -20,7 +20,24 @@ Therefore, beware of short-running micro-benchmarks. If necessary, turn off the 
 ![128 bits](https://github.com/soyona/condor/blob/master/basic-sample-object/src/main/resources/Object's128.png)
 ![96 bits](https://github.com/soyona/condor/blob/master/basic-sample-object/src/main/resources/Object's96.png)
 
-
+> 01->00 
+```text
+As long as an object is unlocked,the last two bits have the value 01.
+When a method synchronizes on an object,
+the header word and a pointer to the object are stored in a lock record within the current stack frame.
+Then the VM attempts to install a pointer to the lock record in the object's header word via a compare-and-swap operation.
+If it succeeds,the current thread aferwards owns the lock,
+Since lock records are always aligned at word boundaries,
+the last two bits of the header word are then 00 and identify the object as being locked.
+```
+```text
+If the compare-and-swap operation fails because the object was locked before, 
+the VM first tests whether the header word points into the method stack of the current thread. 
+In this case, the thread already owns the object's lock and can safely continue its execution.
+For such a recursively locked object, the lock record is initialized with 0 instead of the object's header word. 
+Only if two different threads concurrently synchronize on the same object, 
+the thin lock must be inflated to a heavyweight monitor for the management of waiting threads.
+```
 ```text
 The mark word has word size (4 byte on 32 bit architectures, 8 byte on 64 bit architectures) and
 ```

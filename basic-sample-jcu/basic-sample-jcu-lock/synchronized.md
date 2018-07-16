@@ -47,10 +47,8 @@ Other thread trying to access the object will block until the thread holding the
 ````
 ## 1.3 Synchronized Underlying
 >[Underlying Analysis](https://www.artima.com/insidejvm/ed2/threadsynchP.html)
-### 1.3.0 Object's Head
-> [Object's Head figure](https://wiki.openjdk.java.net/display/HotSpot/Synchronization)
 
-> [Object's Header](https://wiki.openjdk.java.net/download/attachments/11829266/Synchronization.gif?version=4&modificationDate=1208918680000&api=v2)
-
+### 1.3.0 What's Monitor
+[What's Monitor](https://github.com/soyona/condor/tree/master/basic-sample-object#3objectmonitor)
 ### 1.3.1 Synchronized Statements
 ### 1.3.2 Synchronized Methods

@@ -51,7 +51,7 @@ if the heap addresses can be encoded in these 4 bytes.
 ## 2.3 对齐填充
 > 由于JVM要求对象的起始地址必须是8的整数倍，必须填充补齐
 
-# 3.ObjectMonitor
+# 3.1 ObjectMonitor
 ```text
 Monitor(管程，也称为监视器) 是一种程序结构，结构内的多个子程序形成的多个工作线程互斥访问共享资源，管程实现了在一个时间点，
 只能有一个线程访问共享资源。
@@ -80,4 +80,86 @@ Monitor(管程，也称为监视器) 是一种程序结构，结构内的多个�
   }
 ```
 > Java Monitor Figure
+
 ![Java Monitor](./src/main/resources/Java_monitor.gif)
+
+## 3.1.1 ObjectWaiter
+```text
+ObjectWaiter是一个双向链表,每一个等待锁的线程都被封装为一个ObjectWaiter对象，
+```
+```text
+class ObjectWaiter : public StackObj {  
+ public:  
+  enum TStates { TS_UNDEF, TS_READY, TS_RUN, TS_WAIT, TS_ENTER, TS_CXQ } ;  
+  enum Sorted  { PREPEND, APPEND, SORTED } ;  
+  ObjectWaiter * volatile _next;  
+  ObjectWaiter * volatile _prev;  
+  Thread*       _thread;  
+  ParkEvent *   _event;  
+  volatile int  _notified ;  
+  volatile TStates TState ;  
+  Sorted        _Sorted ;           // List placement disposition  
+  bool          _active ;           // Contention monitoring is enabled  
+ public:  
+  ObjectWaiter(Thread* thread) {  
+    _next     = NULL;  
+    _prev     = NULL;  
+    _notified = 0;  
+    TState    = TS_RUN ;  
+    _thread   = thread;  
+    _event    = thread->_ParkEvent ;  
+    _active   = false;  
+    assert (_event != NULL, "invariant") ;  
+  }  
+  void wait_reenter_begin(ObjectMonitor *mon) {  
+    JavaThread *jt = (JavaThread *)this->_thread;  
+    _active = JavaThreadBlockedOnMonitorEnterState::wait_reenter_begin(jt, mon);  
+  }  
+  void wait_reenter_end(ObjectMonitor *mon) {  
+    JavaThread *jt = (JavaThread *)this->_thread;  
+    JavaThreadBlockedOnMonitorEnterState::wait_reenter_end(jt, _active);  
+  }  
+};  
+```
+## 3.1.2 Object.wait
+> Object.wait方法最终调用ObjectMonitor.wait(jlong millis, bool interruptable, TRAPS)方法实现：[具体实现](https://github.com/openjdk-mirror/jdk7u-hotspot/blob/50bdefc3afe944ca74c3093e7448d6b889cd20d1/src/share/vm/runtime/objectMonitor.cpp)
+ 
+>> ObjectWaiter node(self)  创建ObjectWaiter节点加入队列
+ 
+>> ObjectMonitor::AddWaiter 方法将node添加到_WaitSet列表中
+ 
+>> ObjectMonitor::exit 释放当前的ObjectMonitor对象
+ 
+>> The thread is on the WaitSet list - now park() it,java_suspend_self();
+
+## 3.1.3 Object.notify
+> Object.notify调用ObjectMonitor的void ObjectMonitor::notify(TRAPS)，[具体实现](https://github.com/openjdk-mirror/jdk7u-hotspot/blob/50bdefc3afe944ca74c3093e7448d6b889cd20d1/src/share/vm/runtime/objectMonitor.cpp)
+ 
+>> if _WaitSet == NULL 返回
+```text
+if (_WaitSet == NULL) {
+      TEVENT (Empty-NotifyAll) ;
+      return ;
+  }
+```
+ 
+>> not null,ObjectMonitor::DequeueWaiter 获取_WaitSet中的要唤醒的ObjectWaiter对象，根据不同策略加入_EntryList队列
+```text
+ObjectWaiter * iterator = DequeueWaiter() ;
+```
+```text
+if (List == NULL) {
+     iterator->_next = iterator->_prev = NULL ;
+     _EntryList = iterator ;
+ } else {
+     List->_prev = iterator ;
+     iterator->_next = List ;
+     iterator->_prev = NULL ;
+     _EntryList = iterator ;
+}
+```
+
+## 3.1.4 Object.notfyAll
+> Object.notfyAll调用ObjectMonitor的void ObjectMonitor::notifyAll(TRAPS)，[具体实现](https://github.com/openjdk-mirror/jdk7u-hotspot/blob/50bdefc3afe944ca74c3093e7448d6b889cd20d1/src/share/vm/runtime/objectMonitor.cpp)
+ 
+>> for(;;){iterator = DequeueWaiter () ;}根据不同策略加入_EntryList队列

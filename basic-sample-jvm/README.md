@@ -51,14 +51,10 @@
 ```
 # 二、常量池
 
-参考
----
-```text
-https://www.jianshu.com/p/c7f47de2ee80
-```
+> [Reference](https://www.jianshu.com/p/c7f47de2ee80)
 
 ## 常量池表（constant_pool table）
----
+
 ###### 存放什么？
 ```text
 1、字面量（Literal）：字符串，final修饰的（静态、实例、局部）变量
@@ -70,7 +66,7 @@ https://www.jianshu.com/p/c7f47de2ee80
 
 
 ## 运行时常量池（runtime constant pool）
-----
+
 ###### 意义
 ```text
     1、避免频繁的创建和销毁对象，影响系统性能；

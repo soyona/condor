@@ -1,5 +1,6 @@
 # JCU's Basic component
 ## 1. Synchronized
+> [Kanglei's Understanding](./basic-sample-jcu-lock/synchronized.md)
 ### 1.1 底层队列 ContentionList
 ### 1.2 底层队列 EntryList
 ### 1.3 偏向锁

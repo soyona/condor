@@ -79,5 +79,5 @@ Monitor(管程，也称为监视器) 是一种程序结构，结构内的多个�
     OwnerIsThread = 0 ;
   }
 ```
-> 
+> Java Monitor Figure
 ![Java Monitor](./src/main/resources/Java_monitor.gif)

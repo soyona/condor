@@ -51,4 +51,33 @@ if the heap addresses can be encoded in these 4 bytes.
 ## 2.3 对齐填充
 > 由于JVM要求对象的起始地址必须是8的整数倍，必须填充补齐
 
+# 3.ObjectMonitor
+```text
+Monitor(管程，也称为监视器) 是一种程序结构，结构内的多个子程序形成的多个工作线程互斥访问共享资源，管程实现了在一个时间点，
+只能有一个线程访问共享资源。
 
+``` 
+>  [ObjectMonitor](https://github.com/openjdk-mirror/jdk7u-hotspot/blob/50bdefc3afe944ca74c3093e7448d6b889cd20d1/src/share/vm/runtime/objectMonitor.cpp)
+
+```text
+ ObjectMonitor() {
+    _header       = NULL;
+    _count        = 0; // 用来记录该线程获取锁的次数
+    _waiters      = 0,
+    _recursions   = 0; // 锁的重入次数
+    _object       = NULL;
+    _owner        = NULL; // 指向持有ObjectMonitor对象的线程
+    _WaitSet      = NULL; // 存放持有wait状态的线程队列
+    _WaitSetLock  = 0 ;
+    _Responsible  = NULL ;
+    _succ         = NULL ;
+    _cxq          = NULL ;
+    FreeNext      = NULL ;
+    _EntryList    = NULL ; // 存放处于等待锁block状态的线程队列
+    _SpinFreq     = 0 ;
+    _SpinClock    = 0 ;
+    OwnerIsThread = 0 ;
+  }
+```
+> 
+![Java Monitor](./src/main/resources/Java_monitor.gif)

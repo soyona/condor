@@ -4,6 +4,7 @@
 - By implementing the Runnable interface.
 - By extending the Thread class
 ### 1.1.1 Implementing the Runnable interface.
+> [kanglei's code](./src/main/java/sample/thread/ThreadDemo.java)
 ```text
     class MyThread implements Runnable{
 
@@ -22,6 +23,8 @@
     }
 ```
 ### 1.1.2 Extending the Thread class
+> [kanglei's code](./src/main/java/sample/thread/ThreadDemo.java)
+ 
 > This is another way to create a thread by a new class that extends **Thread** class,the extending class must override run() method 
 which is the entry point of new thread.
 ```text

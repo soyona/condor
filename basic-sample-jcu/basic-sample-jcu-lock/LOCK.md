@@ -75,7 +75,9 @@ final boolean nonfairTryAcquire(int acquires) {
     return false;
 }
 ```
-## 13 偏向锁（Biased Locking）
+## 13 对象锁 （Object monitor）
+## 14 线程锁
+## 15 偏向锁（Biased Locking）
 > Java偏向锁(Biased Locking)是Java6引入的一项多线程优化，而偏向锁是在无竞争场景下完全消除同步，
 ```text
 偏向锁是虚拟机对锁实现所做的优化。这种优化基于这样的观测结果（Observation）：大多数锁并没有被争用（contented），并且这些锁在生命周期内只会被一个线程持有。
@@ -91,8 +93,6 @@ final boolean nonfairTryAcquire(int acquires) {
 ```text
 偏向锁优化默认是开启的。要关闭偏向锁优化，我们可以在Java程序的启动命令行中添加虚拟机参数“-XX:-UseBiasedLocking”（开启偏向锁优化可以使用虚拟机参数“-XX:+UseBiasedLocking”）。
 ```
-## 14 对象锁 （Object monitor）
-## 15 线程锁
 ## 16 锁粗化（Lock Coarsening/Lock Merging）
 ```text
 锁粗化是JIT编译器对内部锁的具体实现，对于相邻的几个同步块，如果这些同步块使用的同一个锁实例，那么JIT编译器会将这些同步块合并为一个大同步块。
@@ -102,14 +102,14 @@ final boolean nonfairTryAcquire(int acquires) {
 ```text
 锁粗化默认是开启的。如果要关闭这个特性，我们可以在Java程序的启动命令行中添加虚拟机参数“-XX:-EliminateLocks”
 ```
-## 17 轻量级锁
-## 18 锁消除（Lock Elision）
+## 17 锁消除（Lock Elision）
 
 ```
 JIT编译器通过`逃逸分析` （Escape Analysis）技术判断同步块所使用的锁对象是否只能够被一个线程访问，
 如果分析证实同步块只会被一个线程访问，那么JIT编译器在编译这个同步块时并不生成Synchronized的对应的机器码monitorexit/monitorenter,
 即：消除了锁的使用，被称为：锁消除。
 ```
+> 逃逸分析
 ```text
 `逃逸分析`:技术自Java SE 6u23起默认是开启的
 ```
@@ -125,5 +125,29 @@ JIT编译器通过`逃逸分析` （Escape Analysis）技术判断同步块所�
         return this;
     }
 ```
-## 19 锁膨胀
-## 20 信号量
+## 18 适应性锁（Adaptive Locking/Adaptive Spinning）
+> 定义：是JIT编译器对内部锁实现所做的一种优化。
+ 
+> 使用时机：等待锁的策略
+```text
+在锁争用的情况下，如果一个线程获取正在被其他线程占有的锁时，该线程就需要等待直到锁被释放，实现这种等待有两种方式：
+```
+> 策略一：暂停（非Runnable状态）
+```text
+暂停导致上下文切换，这种策略比较适合系统中绝大多数线程对该锁持有时间较长的情况，这样可以减少上下文切换的开销。
+```
+> 策略二：忙等（Busy wait）
+```text
+//空操作，
+while (lockIsHeldByOtherThread){}
+```
+```text
+忙等可以减少上下文切换，但消耗CPU资源，因此，忙等策略适合绝大多数线程对该锁持有时间较短的场景，以避免处理器时间开销。
+```
+> 总结：
+```text
+对于具体锁实例，虚拟机可以根据运行过程中收集到的信息该锁是 持有时间"较长"还是"较短"。较长则采用 暂停策略，较短则采用忙等策略；因此成为 适应性锁。
+```
+## 19 轻量级锁
+## 20 锁膨胀
+## 21 信号量

@@ -80,6 +80,14 @@ final boolean nonfairTryAcquire(int acquires) {
 ## 14 对象锁 （Object monitor）
 ## 15 线程锁
 ## 16 锁粗化（Lock Coarsening/Lock Merging）
+```text
+锁粗化是JIT编译器对内部锁的具体实现，对于相邻的几个同步块，如果这些同步块使用的同一个锁实例，那么JIT编译器会将这些同步块合并为一个大同步块。
+从而避免了一个线程反复申请、释放同一锁所导致的开销。
+然而，锁粗化可能导致一个线程在同一锁上等待时间变长（临界区变长）
+```
+```text
+锁粗化默认是开启的。如果要关闭这个特性，我们可以在Java程序的启动命令行中添加虚拟机参数“-XX:-EliminateLocks”
+```
 ## 17 轻量级锁
 ## 18 锁消除（Lock Elision）
 

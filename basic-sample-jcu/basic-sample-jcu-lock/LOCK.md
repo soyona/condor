@@ -77,6 +77,20 @@ final boolean nonfairTryAcquire(int acquires) {
 ```
 ## 13 偏向锁（Biased Locking）
 > Java偏向锁(Biased Locking)是Java6引入的一项多线程优化，而偏向锁是在无竞争场景下完全消除同步，
+```text
+偏向锁是虚拟机对锁实现所做的优化。这种优化基于这样的观测结果（Observation）：大多数锁并没有被争用（contented），并且这些锁在生命周期内只会被一个线程持有。
+因为字节码指令：monitorenter/monitorexit执行时借助CAS操作，代价昂贵。
+因此：虚拟机为每个对象维护一个偏好：bias，即一个对象的内部锁第一次被一个线程获得，那么这个线程就被标记为该对象的偏好线程。这个线程以后再次申请该锁/释放该锁，都无需借助CAS操作，
+从而减少了锁申请和释放的开销。
+```
+```text
+当一个对象的偏好线程之外的线程需要获取该对象的内部锁时，JVM需要收回（Revoke）并重新设置该对象的偏好线程。
+由于 收回和设置也有开销，因此如果程序运行中存在比较多的锁争用的情况，开销随之增大；
+因此，偏向锁优化只适合于存在相当大一部分锁并没有被争用的系统之中
+```
+```text
+偏向锁优化默认是开启的。要关闭偏向锁优化，我们可以在Java程序的启动命令行中添加虚拟机参数“-XX:-UseBiasedLocking”（开启偏向锁优化可以使用虚拟机参数“-XX:+UseBiasedLocking”）。
+```
 ## 14 对象锁 （Object monitor）
 ## 15 线程锁
 ## 16 锁粗化（Lock Coarsening/Lock Merging）

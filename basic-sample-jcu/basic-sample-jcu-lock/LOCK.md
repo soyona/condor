@@ -75,11 +75,33 @@ final boolean nonfairTryAcquire(int acquires) {
     return false;
 }
 ```
-## 13 偏向锁
-## 14 对象锁
+## 13 偏向锁（Biased Locking）
+> Java偏向锁(Biased Locking)是Java6引入的一项多线程优化，而偏向锁是在无竞争场景下完全消除同步，
+## 14 对象锁 （Object monitor）
 ## 15 线程锁
-## 16 锁粗化
+## 16 锁粗化（Lock Coarsening/Lock Merging）
 ## 17 轻量级锁
-## 18 锁消除
+## 18 锁消除（Lock Elision）
+
+```
+JIT编译器通过`逃逸分析` （Escape Analysis）技术判断同步块所使用的锁对象是否只能够被一个线程访问，
+如果分析证实同步块只会被一个线程访问，那么JIT编译器在编译这个同步块时并不生成Synchronized的对应的机器码monitorexit/monitorenter,
+即：消除了锁的使用，被称为：锁消除。
+```
+```text
+`逃逸分析`:技术自Java SE 6u23起默认是开启的
+```
+```text
+锁消除优化是在Java 7开始引入的，锁消除是JIT编译器而不是javac所做的一种优化，而一段代码只有在其被执行的频率足够大的情况下才有可能会被JIT编译器优化
+```
+> 例如：StringBuffer.append/toString/reverse等同步方法，StringBuffer变量在方法体中使用，只会单线程使用，不会发生并发
+```text
+    @Override
+    public synchronized StringBuffer append(String str) {
+        toStringCache = null;
+        super.append(str);
+        return this;
+    }
+```
 ## 19 锁膨胀
 ## 20 信号量

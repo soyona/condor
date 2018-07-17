@@ -29,6 +29,7 @@ Owner线程并不是把锁传递给OnDeck线程，只是把竞争锁的权利交
 为了减少以上开销：采用自旋，当发生争用时，采用适应性锁，来根据锁需被持有的时间长短来采用自旋还是等待策略；
 ```
 ### 1.5 CAS(Lock-Free)
+> [Lock-Free](./basic-sample-jcu-lock/Lock-Free.md)
 
 ## 2. Lock
 ## 2.1 CLH

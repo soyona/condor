@@ -1,4 +1,4 @@
-# 有关锁 
+# 一、有关锁 
 > Reference: http://ifeve.com/java_lock_see/
 ## 1 自旋锁
 > Reference: http://ifeve.com/java_lock_see1/
@@ -190,4 +190,76 @@ final boolean nonfairTryAcquire(int acquires) {
     }
     return false;
 }
+```
+
+# 二、锁优化
+## 2.1 减少锁的时间
+
+## 2.2 较少锁的粒度
+> 把一个锁拆成多个锁，减少锁竞争，增加并行
+ 
+> 例如： 
+### 2.2.1 ConcurrentHashMap
+> JDK1.8之前 ConcurrentHashMap采用Segment数组
+```text
+   Segment< K,V >[] segments
+    /**
+     * Stripped-down version of helper class used in previous version,
+     * declared for the sake of serialization compatibility
+     */
+    static class Segment<K,V> extends ReentrantLock implements Serializable {
+        private static final long serialVersionUID = 2249069246763182397L;
+        final float loadFactor;
+        Segment(float lf) { this.loadFactor = lf; }
+    }
+```
+### 2.2.2 LongAdder
+```text
+开始没有并发争用的时候或者是cells数组正在初始化的时候，会使用cas来将值累加到成员变量的base上，
+在并发争用的情况下，LongAdder会初始化cells数组，
+在Cell数组中选定一个Cell加锁，数组有多少个cell，就允许同时有多少线程进行修改，
+最后将数组中每个Cell中的value相加，在加上base的值，就是最终的值；
+cell数组还能根据当前线程争用情况进行扩容，初始长度为2，每次扩容会增长一倍，直到扩容到大于等于cpu数量就不再扩容，
+这也就是为什么LongAdder比cas和AtomicInteger效率要高的原因，后面两者都是volatile+cas实现的，他们的竞争维度是1，
+LongAdder的竞争维度为“Cell个数+1”为什么要+1？因为它还有一个base，如果竞争不到锁还会尝试将数值加到base上；
+```
+### 2.2.3 LinkedBlockingQueue
+```text
+LinkedBlockingQueue也体现了这样的思想，
+在队列头入队，在队列尾出队，入队和出队使用不同的锁，
+相对于LinkedBlockingArray只有一个锁效率要高；
+```
+### NOTE: 拆锁的粒度不能无限拆，最多可以将一个锁拆为当前cup数量个锁即可；
+
+## 2.3 锁粗化
+```text
+假如有一个循环，循环内的操作需要加锁，我们应该把锁放到循环外面，否则每次进出循环，都进出一次临界区，效率是非常差的；
+```
+## 2.4 读写锁
+```text
+ReentrantReadWriteLock 是一个读写锁，读操作加读锁，可以并发读，写操作使用写锁，只能单线程写；
+```
+### 2.4.1 ReentrantReadWriteLock
+
+## 2.5 读写分离
+> CopyOnWrite容器是一个写时复制容器，添加元素时，先将原先容器复制，在新的容器中添加元素，再将原容器指向新容器
+> 可以支持并发读，写时是新容器，读写分离
+> 用于都多写少的情景，读时无需加锁，写时加锁，并发写时避免复制多个新容器。
+### 2.5.1 CopyOnWriteArrayList 
+### 2.5.2 CopyOnWriteArraySet
+## 2.6 CAS
+> 避免线程上线文切换
+## 2.7 消除缓存行
+```
+由于CPU读写数据是以缓存行为单位，缓存行单位大小：32字节/64字节（32位CPU/64位CPU）
+需要同步的变量可能和其他变量同时存在同一缓存行，其他变量会被连带加锁
+```
+> 为了消除缓存行：
+```text
+1.在jdk1.7之前会 将需要独占缓存行的变量前后添加一组long类型的变量，依靠这些无意义的数组的填充做到一个变量自己独占一个缓存行；
+2.在jdk1.7因为jvm会将这些没有用到的变量优化掉，所以采用继承一个声明了好多long变量的类的方式来实现；
+3.在jdk1.8中通过添加sun.misc.Contended注解来解决这个问题，若要使该注解有效必须在jvm中添加以下参数： 
+  -XX:-RestrictContended
+  
+  sun.misc.Contended注解会在变量前面添加128字节的padding将当前变量与其他变量进行隔离；
 ```

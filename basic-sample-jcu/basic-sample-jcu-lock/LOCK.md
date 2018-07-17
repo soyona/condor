@@ -191,7 +191,14 @@ final boolean nonfairTryAcquire(int acquires) {
     return false;
 }
 ```
-
+## 22 死锁（Dead Lock）
+```text
+线程处于阻塞状态
+```
+## 23 活锁（Live Lock）
+```text
+线程一直处于运行状态，做无用功，消耗CPU资源
+```
 # 二、锁优化
 ## 2.1 减少锁的时间
 

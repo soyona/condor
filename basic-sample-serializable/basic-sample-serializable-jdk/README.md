@@ -100,3 +100,35 @@ if (obj instanceof String) {// String
 ### 3.1.2 根据类名、接口名、成员方法名、属性生成64位的哈希字段
 
 
+# 4. Serialization's 5 problems
+## 4.1 Serialization allows for refactoring
+- Adding new fields to a class
+- Changing the field from static to nonstatic
+- Changing the fields from transient to nontransient
+```text
+We need serialVersionUID in the class.
+```
+## 4.2 Serialization is not secure
+```text
+Because the serialization binary format is fully documented and entirely reversible.
+In fact,just dumping the contents of the binary serialized stream to the console is sufficient
+to figure out what the class look like and contains.
+```
+## 4.3 Serialized data can be signed and sealed
+```text
+If you need to encrypt and sign an entire object,the simplest way is to put it in the 
+javax.crypto.SealedObject and/or java.security.SignedObject wrapper.
+```
+## 4.4 Serialization can put a proxy in your stream
+```text
+Providing a writeReplace method on the original Person allows a different kind of object to be serialized in its place; 
+similarly, if a readResolve method is found during deserialization, it is called to supply a replacement object back to the caller.
+```
+## 4.5 Trust,But Validate
+```text
+In the case of serialized objects, 
+this means validating the fields to ensure that they hold legitimate values after deserialization, 
+"just in case." 
+We can do this by implementing the ObjectInputValidation interface and overriding the validateObject() method. 
+If something looks amiss when it is called, we throw an InvalidObjectException.
+```

@@ -62,7 +62,8 @@ if the heap addresses can be encoded in these 4 bytes.
 ## 2.3 对齐填充
 > 由于JVM要求对象的起始地址必须是8的整数倍，必须填充补齐
 
-# 3.1 ObjectMonitor
+
+# 3. ObjectMonitor
 ```text
 Monitor(管程，也称为监视器) 是一种程序结构，结构内的多个子程序形成的多个工作线程互斥访问共享资源，管程实现了在一个时间点，
 只能有一个线程访问共享资源。
@@ -94,7 +95,7 @@ Monitor(管程，也称为监视器) 是一种程序结构，结构内的多个�
 
 ![Java Monitor](./src/main/resources/Java_monitor.gif)
 
-## 3.1.1 ObjectWaiter
+## 3.1 ObjectWaiter
 ```text
 ObjectWaiter是一个双向链表,每一个等待锁的线程都被封装为一个ObjectWaiter对象，
 ```

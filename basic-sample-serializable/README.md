@@ -31,3 +31,37 @@ In a computer system, there is a source that generates data in the form of strea
 when we make a remote invocation method or RMI from a web tier to app tier, we need to send the data value object that transfers the required business information from web tier to app tier after Serialization(we implement java.io. Serializable (Marker Interface) that we are now going to discuss in detail).
 
 > [Reference](http://www.codenuclear.com/serialization-deserialization-java/) 
+
+# 4. 如何选择序列化
+> 从哪些方面比较序列化框架
+```text
+1. 是否跨语言
+2. API使用是否便捷
+3. Encode/Decode性能
+4. Decode后的体积大小
+```
+## 4.1 跨平台框架
+### 4.1.1 Protobuf
+> [Google ProtoBuf](./basic-sample-serializable-protobuf/README.md)
+### 4.1.2 Thrift
+> [Thrift](./basic-sample-serializable-thrift/README.md)
+### 4.1.3 Avro
+> [Avro](./basic-sample-serializable-avro/README.md)
+### 4.1.4 hessian
+> [hessian](./basic-sample-serializable-hessian/README.md)
+```text
+Dubbo默认支持
+```
+### 4.1.5 
+## 4.2 Java序列化
+### 4.2.1 kryo
+> Dubbo支持
+```text
+<dubbo:protocol name="dubbo" serialization="kryo"/>
+```
+### 4.2.2 FST
+> Dubbo支持
+```text
+<dubbo:protocol name="dubbo" serialization="fst"/>
+```
+

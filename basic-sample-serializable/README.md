@@ -1,10 +1,19 @@
-# Serialization and Deserialization in Java
-## Serialization: 
+# 0. Disclaimer
+## 0.1 Some serializers support cycle detection object sharing,others just write non-cyclic tree structrues.
+## 0.2 Some include full metadata in serialized output,some don't;
+## 0.3 Some cross platform,some are language specific;
+## 0.4 Some are text based,some are binary;
+## 0.5 Some support versioning forward/backward,both,some don't
+
+> [Benchmarks serializers](https://github.com/eishay/jvm-serializers/wiki)
+
+# 1. Serialization and Deserialization in Java
+## 1.1 Serialization: 
 > Serialization is a mechanism of converting the state of an object into a byte stream.
-## Deserialization:
+## 1.2 Deserialization:
 > Deserialization is a mechanism to convert back to object from the byte stream.
 
-# What is stream?
+# 2. What is stream?
 > A stream is nothing but the sequence of data elements. 
 In a computer system, there is a source that generates data in the form of stream and there is a destination which reads and consumes this stream. Here are the types of streams:
 
@@ -17,9 +26,8 @@ In a computer system, there is a source that generates data in the form of strea
 - Object Stream:
     > the state of a JAVA object can be converted into a byte stream that can be stored into a database, file, or transported to any known location like from web tier to app tier as data value object in client-server RMI applications. This process of writing the object state into a byte stream is known as Serialization.        
 
-# When we will use serialization and deserialization?
+# 3.  When we will use serialization and deserialization?
 > In multi-tier JAVA/J2EE application (client-server RMI applications), 
 when we make a remote invocation method or RMI from a web tier to app tier, we need to send the data value object that transfers the required business information from web tier to app tier after Serialization(we implement java.io. Serializable (Marker Interface) that we are now going to discuss in detail).
 
-# Reference 
-> http://www.codenuclear.com/serialization-deserialization-java/    
+> [Reference](http://www.codenuclear.com/serialization-deserialization-java/) 

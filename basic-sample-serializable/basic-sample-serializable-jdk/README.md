@@ -1,13 +1,22 @@
-# 对象序列化和反序列化过程
-![](https://github.com/soyona/condor/blob/master/basic-sample-serializable/basic-sample-serializable-jdk/src/main/resources/img/jdk-serialization.png)
-# 对象序列化应用
+# 1. 对象序列化和反序列化过程
+> ![](https://github.com/soyona/condor/blob/master/basic-sample-serializable/basic-sample-serializable-jdk/src/main/resources/img/jdk-serialization.png)
+ 
+> [Import New 参考](http://www.importnew.com/24490.html)
+ 
+> [Oracle参考](https://docs.oracle.com/javase/7/docs/platform/serialization/spec/serial-arch.html)
+  
+> 对象序列化应用
+```text
+
 > 序列化是对象持久化的手段，普遍应用在网络传输、RMI等场景中，
  
 > Java对象是在JVM运行时创建的对象，其生命周期不会比JVM生命周期长。在现实应用中，可能要求在JVM停止运行之后能够持久化JAVA对象，并在将来重新读取被持久化的对象。Java对象序列化就是其中一种手段。
    
 > 对象序列化是保存对象的状态（对象的成员变量），因此，对象序列化不会关注类中的静态变量。
 
-# Java对象序列化与反序列化
+```
+
+# 2. Java对象序列化与反序列化
 > 1. Java中被序列化的对象条件：
     >> 1.1. 实现 java.io.Serializable接口; 或者  Externalizable
     >> 1.2. Enum
@@ -48,16 +57,16 @@ if (obj instanceof String) {// String
 > 8. 在类中增加writeObject 和 readObject 方法可以实现自定义序列化策略  
 
 
-## 对象引用的序列化
+## 2.1 对象引用的序列化
 > Order类中 有Member引用，那么，Member必须实现java.io.Serializable接口，否则 抛出java.io.NotSerializableException: sample.serializable.jdk.Member
 
-## 继承关系的序列化
+## 2.2 继承关系的序列化
 > Parent类若需序列化，必须实现 Parent 必须实现 java.io.Serializable接口 或者 提供默认无参构造。否则抛出 java.io.InvalidClassException: sample.serializable.jdk.Order; no valid constructor 
  
-## BlockDataOutputStream
+## 2.3 BlockDataOutputStream
 > Buffered output stream
 
-# ArrayList 序列化
+## 2.4 ArrayList 序列化
 ## ArrayList 自定义 writeObject 和 readObject 
  
 ## ArrayList transient Object[] elementData
@@ -74,7 +83,7 @@ if (obj instanceof String) {// String
 
 防止序列化空对象null，所以transient
 ```
-# serialVersionUID的作用
+# 3. serialVersionUID的作用
 > serialVersionUID用来表明类的不同版本，
  
 > 如果希望类的不同版本（类的方法，属性等修改增加导致版本不一致）兼容，需要指定serialVersionUID，使得不同版本有相同的serialVersionUID。
@@ -84,12 +93,10 @@ if (obj instanceof String) {// String
 > 如果实例化后，修改了类（增加字段），如果该类没有指定serialVersionUID，那么，反序列化将抛异常。如果有serialVersionUID，反序列化时，更改的字段将设置为null，或者基本能类型的默认初始值。
 
  
-## serialVersionUID的两种生成方式：
-> 默认 1L
+## 3.1 serialVersionUID的两种生成方式：
+
+### 3.1.1 默认 1L
  
-> 根据类名、接口名、成员方法名、属性生成64位的哈希字段
- 
-# Reference
-> http://www.importnew.com/24490.html
- 
-> https://docs.oracle.com/javase/7/docs/platform/serialization/spec/serial-arch.html
+### 3.1.2 根据类名、接口名、成员方法名、属性生成64位的哈希字段
+
+

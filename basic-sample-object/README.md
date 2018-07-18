@@ -6,9 +6,15 @@
 ```text
  Order order = (Order)UnsafeUtils.unsafe.allocateInstance(Order.class);
 ```
+> [参考Kyro实例化](../basic-sample-serializable/basic-sample-serializable-kryo/README.md)
 ### 0.2.3 反序列化
 > [参考各种序列化手段](https://github.com/soyona/condor/tree/master/basic-sample-serializable)
 
+### 0.2.4 objenesis
+> [objenesis](https://blog.csdn.net/codershamo/article/details/52015206)
+```text
+不使用构造器创建对象
+```
 # 1. How to Computing an object's size
 > [StackOverFlow Discuss](https://stackoverflow.com/questions/52353/in-java-what-is-the-best-way-to-determine-the-size-of-an-object)
 

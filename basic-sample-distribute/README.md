@@ -22,4 +22,14 @@
 
 ## memcached-client:
 > https://github.com/dustin/java-memcached-client/blob/master/src/main/java/net/spy/memcached/KetamaNodeLocator.java
+ 
+> https://github.com/dustin/java-memcached-client/blob/master/src/main/java/net/spy/memcached/KetamaIterator.java
+## other 
+> https://github.com/afghl/hashringdemo/tree/master/src/com/hashringdemo
+ 
+> https://github.com/Jaskey/ConsistentHash/blob/master/src/com/github/jaskey/consistenthash/ConsistentHashRouter.java
+ 
+> https://gist.github.com/bcambel/cd45ab30bd19cb7e69bcb3fb64e71922
 
+# Consistent hashing with bounded loads
+> http://ai.googleblog.com/2017/04/consistent-hashing-with-bounded-loads.html

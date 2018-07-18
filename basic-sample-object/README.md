@@ -1,3 +1,14 @@
+# 0. How to get an Object?
+## 0.1 Three ways of creating an Object？
+### 0.1.1 new Constructor()
+### 0.2.2 Unsafe.allocateIntance(Class)
+> [参考代码](https://github.com/soyona/condor/tree/master/basic-sample-jcu/basic-sample-jcu-unsafe#31-create-an-instance-of-a-class-without-calling-a-constructor)
+```text
+ Order order = (Order)UnsafeUtils.unsafe.allocateInstance(Order.class);
+```
+### 0.2.3 反序列化
+> [参考各种序列化手段](https://github.com/soyona/condor/tree/master/basic-sample-serializable)
+
 # 1. How to Computing an object's size
 > [StackOverFlow Discuss](https://stackoverflow.com/questions/52353/in-java-what-is-the-best-way-to-determine-the-size-of-an-object)
 

@@ -13,7 +13,7 @@
     >> 1.2. Enum
     >> 1.3. Array
     >> 1.4. String 
-```java
+```text
 // remaining cases
 if (obj instanceof String) {// String
     writeString((String) obj, unshared);

@@ -50,7 +50,7 @@ The mark word has word size (4 byte on 32 bit architectures, 8 byte on 64 bit ar
 #### 2.1.1.4 偏向线程ID
 #### 2.1.1.5 偏向时间戳
 
-#### Note： 32为JVM的对象头结构如图：
+#### Note： 32位JVM的对象头结构如图：
 ![64 bits](https://github.com/soyona/condor/blob/master/basic-sample-object/src/main/resources/Object's64.png)
 #### Note： 64位JVM的对象头结构如图：
 ![128 bits](https://github.com/soyona/condor/blob/master/basic-sample-object/src/main/resources/Object's128.png)

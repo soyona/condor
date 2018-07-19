@@ -19,8 +19,14 @@
 > [StackOverFlow Discuss](https://stackoverflow.com/questions/52353/in-java-what-is-the-best-way-to-determine-the-size-of-an-object)
 
 # 2. Java Object在内存中的布局
-> 对象头、实例数据、对齐填充
+```
+对象头、实例数据、对齐填充
+```
+
 ## 2.1 Object's Head structure
+```text
+JVM对象头占用两个机器码:32位机器: 64bits/64位机器：128bits
+```
 > [source code markOop.hpp](http://hg.openjdk.java.net/jdk8/jdk8/hotspot/file/87ee5ee27509/src/share/vm/oops/markOop.hpp)
  
 > [Object's Header](https://wiki.openjdk.java.net/download/attachments/11829266/Synchronization.gif?version=4&modificationDate=1208918680000&api=v2)
@@ -33,9 +39,21 @@ Therefore, beware of short-running micro-benchmarks. If necessary, turn off the 
 ```
 > 
 ![Object's Head figure](https://github.com/soyona/condor/blob/master/basic-sample-object/src/main/resources/Object-Header.png)
-![64 bits](https://github.com/soyona/condor/blob/master/basic-sample-object/src/main/resources/Object's64.png)
-![128 bits](https://github.com/soyona/condor/blob/master/basic-sample-object/src/main/resources/Object's128.png)
 ![96 bits](https://github.com/soyona/condor/blob/master/basic-sample-object/src/main/resources/Object's96.png)
+### 2.1.1 Mark Word
+```text
+The mark word has word size (4 byte on 32 bit architectures, 8 byte on 64 bit architectures)
+```
+#### 2.1.1.1 HashCode
+#### 2.1.1.2 GC 分代年龄
+#### 2.1.1.3 线程持有的锁
+#### 2.1.1.4 偏向线程ID
+#### 2.1.1.5 偏向时间戳
+
+#### Note： 32为JVM的对象头结构如图：
+![64 bits](https://github.com/soyona/condor/blob/master/basic-sample-object/src/main/resources/Object's64.png)
+#### Note： 64位JVM的对象头结构如图：
+![128 bits](https://github.com/soyona/condor/blob/master/basic-sample-object/src/main/resources/Object's128.png)
 
 > 01->00 
 ```text
@@ -55,10 +73,8 @@ For such a recursively locked object, the lock record is initialized with 0 inst
 Only if two different threads concurrently synchronize on the same object, 
 the thin lock must be inflated to a heavyweight monitor for the management of waiting threads.
 ```
-```text
-The mark word has word size (4 byte on 32 bit architectures, 8 byte on 64 bit architectures) and
-```
-### 2.1.2 class pointer
+
+### 2.1.2 Kclass pointer
 ```text
 klass pointer has word size on 32 bit architectures. On 64 bit architectures the klass pointer either has word size, but can also have 4 byte 
 if the heap addresses can be encoded in these 4 bytes.

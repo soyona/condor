@@ -1,4 +1,6 @@
 # 1. CAP理论
+> [CAP理论证明原文](http://www.hollischuang.com/archives/666)
+
 >
 ```text
 

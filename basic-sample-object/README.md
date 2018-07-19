@@ -27,9 +27,9 @@
 ```text
 JVM对象头占用两个机器码:32位机器: 64bits/64位机器：128bits
 ```
-```text
-对象头包括：Mark Word 和 Kclass pointer
-```
+
+> 对象头包括：[Mark Word](https://github.com/soyona/condor/tree/master/basic-sample-object#211-mark-word) 和  [Kclass pointer](https://github.com/soyona/condor/tree/master/basic-sample-object#212-kclass-pointer)
+
 > [source code markOop.hpp](http://hg.openjdk.java.net/jdk8/jdk8/hotspot/file/87ee5ee27509/src/share/vm/oops/markOop.hpp)
  
 > [Object's Header](https://wiki.openjdk.java.net/download/attachments/11829266/Synchronization.gif?version=4&modificationDate=1208918680000&api=v2)

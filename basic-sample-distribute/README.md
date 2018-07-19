@@ -1,14 +1,25 @@
-# CAP理论
----
+# 1. CAP理论
+>
 ```text
 
 ```
 
-# BASE理论
----
+# 2. BASE理论
+>
 ```text
 
 ```
+
+>
+# 3. 分布式锁
+## 3.1 Zookeeper分布式锁
+> [Zookeeper分布式锁](../basic-sample-zookeeper/README.md)
+## 3.2 Google Chubby分布式锁
+> [Google Chubby]()
+## 3.3 Redis分布式锁
+> [Redis分布式锁](../basic-sample-redis/README.md)
+## 3.4 DB分布式锁
+
 # 一致性哈希
 ## Reference
 > http://www.acodersjourney.com/2017/10/system-design-interview-consistent-hashing/
@@ -33,3 +44,4 @@
 
 # Consistent hashing with bounded loads
 > http://ai.googleblog.com/2017/04/consistent-hashing-with-bounded-loads.html
+

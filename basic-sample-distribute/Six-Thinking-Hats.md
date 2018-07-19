@@ -1,0 +1,1 @@
+[六顶思考帽](http://wiki.mbalib.com/wiki/%E5%85%AD%E9%A1%B6%E6%80%9D%E8%80%83%E5%B8%BD)

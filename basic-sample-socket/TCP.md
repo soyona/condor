@@ -12,23 +12,21 @@
 1、物理层
 ```
 
-二、TCP的连接和终止
-===
+# 2.TCP的连接和终止
+> [UNIX网络编程 卷1：套接字联网API(第3版) P31~P38]()
+ 
+> [三次四次](https://blog.csdn.net/qq_16634723/article/details/80428645) 
 
-```text
-参考：[UNIX网络编程 卷1：套接字联网API(第3版)] P31~P38
-```
+## 2.1 TCP三次握手状态图
 
-TCP三次握手状态图
----
 ```text
 [TCP三次握手](https://github.com/soyona/condor/blob/master/basic-sample-socket/src/main/resources/TCP_3_handshake.png)
  
 参考：https://blog.csdn.net/zhengleiguo/article/details/37509861
 ```
 
-TCP四次挥手
----
+## 2.2 TCP四次挥手
+
 ```text
 
 ```

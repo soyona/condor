@@ -47,3 +47,9 @@
 # Consistent hashing with bounded loads
 > http://ai.googleblog.com/2017/04/consistent-hashing-with-bounded-loads.html
 
+# 10. 业务场景及实现
+## 10.1 分布式锁
+## 10.2 分布式计数器之"秒杀"
+## 10.3 分布式计数器之"会员限购商品数量"
+## 10.4 分布式计数器之"会员注册短信验证码一分钟发一条"
+> [发短信一分钟限制一条案例](./src/main/java/sample/counter/MsgCounter.java)

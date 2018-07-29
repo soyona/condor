@@ -53,5 +53,12 @@
 ## 10.3 分布式计数器之"会员限购商品数量"
 ## 10.4 分布式计数器之"会员注册短信验证码一分钟发一条"
 > [发短信一分钟限制一条案例](./src/main/java/sample/counter/MsgCounter.java)
-## 10.5 分布式计数器之"API限流"
+## 10.5 分布式计数器之"API限流" 方式一
+> [官网](http://redis.io/commands/INCR#pattern-rate-limiter)
+ 
 > [1分钟调用100次](./src/main/java/sample/counter/LimitRequest.java)
+```java
+
+```
+## 10.6 分布式计数器之"API限流" 方式二
+

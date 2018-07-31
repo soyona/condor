@@ -9,6 +9,12 @@ import java.io.Serializable;
  * @date 2018/6/12 14:55
  */
 public class Order implements Serializable{
+    private String no;
+    private Double money;
+    /**
+     * 非序列化
+     */
+    private transient int status;
 
     public String getNo() {
         return no;
@@ -26,9 +32,6 @@ public class Order implements Serializable{
         this.money = money;
     }
 
-    private String no;
-    private Double money;
-
     public int getStatus() {
         return status;
     }
@@ -37,10 +40,7 @@ public class Order implements Serializable{
         this.status = status;
     }
 
-    /**
-     * 非序列化
-     */
-    private transient int status;
+
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();

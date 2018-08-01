@@ -212,3 +212,6 @@ if (List == NULL) {
 > Object.notfyAll调用ObjectMonitor的void ObjectMonitor::notifyAll(TRAPS)，[具体实现](https://github.com/openjdk-mirror/jdk7u-hotspot/blob/50bdefc3afe944ca74c3093e7448d6b889cd20d1/src/share/vm/runtime/objectMonitor.cpp)
  
 >> for(;;){iterator = DequeueWaiter () ;}根据不同策略加入_EntryList队列
+
+# new Object()过程
+> [代码示例](./src/main/java/sample/instance/Demo.java)

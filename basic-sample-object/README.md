@@ -17,7 +17,19 @@
 ```
 # 1. How to Computing an object's size
 > [StackOverFlow Discuss](https://stackoverflow.com/questions/52353/in-java-what-is-the-best-way-to-determine-the-size-of-an-object)
-
+```text
+// java.lang.Object shell size in bytes:
+    public static final int OBJECT_SHELL_SIZE   = 8;
+    public static final int OBJREF_SIZE         = 4;
+    public static final int LONG_FIELD_SIZE     = 8;
+    public static final int INT_FIELD_SIZE      = 4;
+    public static final int SHORT_FIELD_SIZE    = 2;
+    public static final int CHAR_FIELD_SIZE     = 2;
+    public static final int BYTE_FIELD_SIZE     = 1;
+    public static final int BOOLEAN_FIELD_SIZE  = 1;
+    public static final int DOUBLE_FIELD_SIZE   = 8;
+    public static final int FLOAT_FIELD_SIZE    = 4;
+```
 # 2. Java Object在内存中的布局
 ```
 对象头、实例数据、对齐填充

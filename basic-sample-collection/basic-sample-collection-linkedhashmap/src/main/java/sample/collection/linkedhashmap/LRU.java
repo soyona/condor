@@ -23,7 +23,7 @@ public class LRU<K,V> extends LinkedHashMap<K,V> implements Map<K,V>{
     public LRU(int capacity){
         capacity = capacity;
     }
-    private LRU(int capacity,float loadFactor,boolean accessOrder){
+    public LRU(int capacity,float loadFactor,boolean accessOrder){
         super(init_capacity,loadFactor,accessOrder);
         this.capacity = capacity;
     }
@@ -44,6 +44,8 @@ public class LRU<K,V> extends LinkedHashMap<K,V> implements Map<K,V>{
         }
         return sb.toString();
     }
+
+
     public static void main(String[] args) {
         LRU<Character, Integer> lru = new LRU<Character, Integer>(10, 0.75f, true);
 

@@ -13,19 +13,18 @@ import java.util.concurrent.CountDownLatch;
  * @date 2016/4/24 10:17
  */
 public class HashMapTest {
-
-    public static final int CONCURRENT_NUM=10;
+    static final int NCPU = Runtime.getRuntime().availableProcessors();
 
     public static Map map = new HashMap();
 
     public static List<Thread> threadList = new ArrayList<Thread>();
 
     //并发控制
-    public static CountDownLatch cdl = new CountDownLatch(CONCURRENT_NUM);
+    public static CountDownLatch cdl = new CountDownLatch(NCPU);
 
 
     public static void init() throws InterruptedException {
-        for (int i = 0; i < CONCURRENT_NUM; i++) {
+        for (int i = 0; i < NCPU; i++) {
             Thread t = new Thread(){
                 @Override
                 public void run() {

@@ -10,30 +10,55 @@ import java.util.Map;
  * @date 2018/6/11 16:12
  */
 public class LRU<K,V> extends LinkedHashMap<K,V> implements Map<K,V>{
+
+    //默认的缓存容量
+    public static final int default_capacity = 10;
+    //初始化容器大小
+    public  static final int init_capacity = default_capacity;
+    public int capacity = default_capacity;
     public LRU(){
         this(16,0.75f,true);
     }
-    private LRU(int initialCapacity,float loadFactor,boolean accessOrder){
-        super(initialCapacity,loadFactor,accessOrder);
+
+    public LRU(int capacity){
+        capacity = capacity;
+    }
+    private LRU(int capacity,float loadFactor,boolean accessOrder){
+        super(init_capacity,loadFactor,accessOrder);
+        this.capacity = capacity;
     }
 
     @Override
     protected boolean removeEldestEntry(Entry<K,V> eldest) {
-        if(size()>60){
+        if(size() > capacity){
             return true;
         }
         return false;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (Map.Entry<K, V> entry : entrySet()) {
+            sb.append(String.format("%s:%s ", entry.getKey(), entry.getValue()));
+        }
+        return sb.toString();
+    }
     public static void main(String[] args) {
-        LRU<Character, Integer> lru = new LRU<Character, Integer>(16, 0.75f, true);
+        LRU<Character, Integer> lru = new LRU<Character, Integer>(10, 0.75f, true);
 
-        String s = "abcdefghijkk";
+        String s = "abcdefgZZZhXYijkkfdafda";
         for (int i = 0; i < s.length(); i++) {
             lru.put(s.charAt(i), i);
         }
-        System.out.println("LRU中key为h的Entry的值为： " + lru.get('h'));
         System.out.println("LRU的大小 ：" + lru.size());
-        System.out.println("LRU ：" + lru);
+        System.out.println(lru);
+        // 读取'X' 使得X 放到最后
+        lru.get('X');
+        System.out.println(lru);
+        // 读取'h' 使得h 放到最后
+        lru.get('h');
+        System.out.println(lru);
+
     }
 }

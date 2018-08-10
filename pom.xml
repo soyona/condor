@@ -12,7 +12,6 @@
     <modules>
        <module>basic-sample-algorithm</module>
         <module>basic-sample-collection</module>
-        <module>basic-sample-io</module>
         <module>basic-sample-jcu</module>
         <module>basic-sample-serializable</module>
         <module>basic-sample-socket</module>

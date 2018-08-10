@@ -17,7 +17,7 @@
         <module>basic-sample-socket</module>
         <module>basic-sample-nio</module>
         <module>basic-sample-bit-operation</module>
-        <module>basic-sample-data-structures-algorithm</module>
+        <module>basic-sample-dsa</module>
         <module>basic-sample-review</module>
         <module>basic-sample-memory</module>
         <module>basic-sample-redis</module>

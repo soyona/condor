@@ -41,6 +41,8 @@
         <module>basic-sample-os</module>
         <module>basic-sample-guava</module>
         <module>basic-sample-lb</module>
+        <module>basic-sample-architectrue</module>
+        <module>basic-sample-mq</module>
     </modules>
 
 </project>

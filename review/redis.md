@@ -42,6 +42,8 @@
         命令：zadd/
         底层实现：skiplist跳跃表和散列表
 ## 3.Redis8种底层数据结构
+    参考：https://www.cnblogs.com/jaycekon/p/6277653.html
+    参考：http://www.cnblogs.com/jaycekon/p/6227442.html
     REDIS_ENCODING_INT  long 类型的整数
     REDIS_ENCODING_EMBSTR   embstr 编码的简单动态字符串
     REDIS_ENCODING_RAW  简单动态字符串

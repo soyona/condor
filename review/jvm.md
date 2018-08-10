@@ -22,7 +22,9 @@ JVM
    4）通过Minor GC后进入老年代的平均大小大于老年代的可用内存
    5) 由Eden区、From Space区向To Space区复制时，对象大小大于To Space可用内存，则把该对象转存到老年代，且老年代的可用内存小于该对象大小
 3. Young GC 会不会触发STW
-    STW：Stop-The-World，
+    STW：Stop-The-World；
+    0）为什么会引起STW？
+        
     1）JVM GC需要通过发起系统调用write()记录GC行为；
     2) write()调用可以被后台磁盘IO所阻塞
     3) 记录GC日志属于JVM停顿的一部分，因此write()调用的时候也会被记录到STW的时间内

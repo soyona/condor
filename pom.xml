@@ -43,6 +43,7 @@
         <module>basic-sample-lb</module>
         <module>basic-sample-architectrue</module>
         <module>basic-sample-mq</module>
+        <module>basic-sample-jdk</module>
     </modules>
 
 </project>

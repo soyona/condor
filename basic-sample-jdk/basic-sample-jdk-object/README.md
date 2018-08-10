@@ -6,7 +6,7 @@
 ```text
  Order order = (Order)UnsafeUtils.unsafe.allocateInstance(Order.class);
 ```
-> [参考Kyro实例化](../basic-sample-serializable/basic-sample-serializable-kryo/README.md)
+> [参考Kyro实例化](../../basic-sample-serializable/basic-sample-serializable-kryo/README.md)
 ### 0.2.3 反序列化
 > [参考各种序列化手段](https://github.com/soyona/condor/tree/master/basic-sample-serializable)
 
@@ -130,7 +130,7 @@ Monitor(管程，也称为监视器) 是一种程序结构，结构内的多个�
 ```
 > Java Monitor Figure
 
-![Java Monitor](./src/main/resources/Java_monitor.gif)
+![Java Monitor](../../basic-sample-object/src/main/resources/Java_monitor.gif)
 
 ## 3.1 ObjectWaiter
 ```text
@@ -214,4 +214,4 @@ if (List == NULL) {
 >> for(;;){iterator = DequeueWaiter () ;}根据不同策略加入_EntryList队列
 
 # new Object()过程
-> [代码示例](./src/main/java/sample/instance/Demo.java)
+> [代码示例](../../basic-sample-object/src/main/java/sample/instance/Demo.java)

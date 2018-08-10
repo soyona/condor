@@ -16,6 +16,7 @@
         <module>basic-sample-serializable-kryo</module>
         <module>basic-sample-serializable-protobuf</module>
         <module>basic-sample-serializable-thrift</module>
+        <module>basic-sample-serializable-fst</module>
     </modules>
 
 

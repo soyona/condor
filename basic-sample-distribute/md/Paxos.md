@@ -1,0 +1,1 @@
+[PAXOS](https://www.jdon.com/artichect/paxos.html)

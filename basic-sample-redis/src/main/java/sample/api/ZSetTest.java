@@ -18,6 +18,8 @@ public class ZSetTest {
         jedis.zadd(key,2d,"1001");
         jedis.zadd(key,1000d,"1002");
         System.out.println(jedis.zrange(key,0,-1));;
+
+        System.out.println("zrank:排名："+jedis.zrank(key,"1002"));
         RedisUtils.backJedis(jedis);
     }
 }

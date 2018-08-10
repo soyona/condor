@@ -1,5 +1,7 @@
 # AQS
 > Reference:http://ifeve.com/introduce-abstractqueuedsynchronizer/
+> Reference:http://ifeve.com/jdk1-8-abstractqueuedsynchronizer-part1/
+> Reference:http://ifeve.com/jdk1-8-abstractqueuedsynchronizer-part2/
 
 ##  基于FIFO队列实现
 ```text

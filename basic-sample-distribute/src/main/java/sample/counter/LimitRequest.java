@@ -26,7 +26,7 @@ public class LimitRequest {
     public long incr(){
         Jedis jedis  = RedisUtils.getJedis();
         long ts = jedis.incr(API_URL);
-        //设置过期时间
+        //设置过期时间，在该行， 可能出现程序意外异常，导致API_URL永无过期时间
         if(ts == 1){
             System.out.println("￥￥￥￥￥￥￥￥￥￥￥￥￥￥￥￥￥");
             jedis.expire(API_URL,TIME_GAP);

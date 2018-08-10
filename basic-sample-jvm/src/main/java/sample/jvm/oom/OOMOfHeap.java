@@ -1,8 +1,8 @@
-package sample.jvm.oo;
+package sample.jvm.oom;
 
 /**
  * @author soyona
- * @Package sample.jvm.oo
+ * @Package sample.jvm.oom
  * @Desc:
  * JVM 启动参数，堆最大内存设置：-Xmx50m
  * @date 2018/6/29 12:30

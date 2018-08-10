@@ -1,11 +1,11 @@
-package sample.jvm.oo;
+package sample.jvm.oom;
 
 import javassist.CannotCompileException;
 import javassist.ClassPool;
 
 /**
  * @author soyona
- * @Package sample.jvm.oo
+ * @Package sample.jvm.oom
  * @Desc:
  * JVM 启动参数：-Xmx100M -XX:MaxPermSize=10M -XX:+UseParallelGC
  * JDK 7
@@ -18,7 +18,7 @@ public class OOMOfPerm {
     }
     public static void javassist() throws CannotCompileException {
         for (int i = 0; ; i++) {
-            Class c = cp.makeClass("smpale.jvm.oo" + i).toClass();
+            Class c = cp.makeClass("smpale.jvm.oom" + i).toClass();
         }
     }
 }

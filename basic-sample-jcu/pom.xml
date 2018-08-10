@@ -13,6 +13,8 @@
         <module>basic-sample-jcu-threadpool</module>
         <module>basic-sample-jcu-app</module>
         <module>basic-sample-jcu-blockingqueue</module>
+        <module>basic-sample-jcu-unsafe</module>
+        <module>basic-sample-jcu-disruptor</module>
     </modules>
 
 

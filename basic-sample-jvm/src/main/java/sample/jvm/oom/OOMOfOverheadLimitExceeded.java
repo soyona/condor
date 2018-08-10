@@ -1,11 +1,11 @@
-package sample.jvm.oo;
+package sample.jvm.oom;
 
 import java.util.Map;
 import java.util.Random;
 
 /**
  * @author soyona
- * @Package sample.jvm.oo
+ * @Package sample.jvm.oom
  * @Desc:
  * JDK8
  * JVM:启动参数：-Xmx12m -XX:+UseParallelGC

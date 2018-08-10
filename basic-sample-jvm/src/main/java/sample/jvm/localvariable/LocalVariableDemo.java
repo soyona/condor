@@ -31,7 +31,6 @@ public class LocalVariableDemo {
     public static void main(String[] args) throws InterruptedException {
 //        testWithGC();
 //        testWithoutGC();
-        testMinorGC();
     }
 
 
@@ -65,13 +64,5 @@ public class LocalVariableDemo {
         }
         System.gc();
     }
-    
-    public static void testMinorGC() throws InterruptedException {
-        for (;;){
-            Thread.currentThread().setName("kanglei");
-//            Thread.sleep(100);
-            byte[] bs = new byte[1 * 1024 * 1024];
-            System.out.println("#");
-        }
-    }
+
 }

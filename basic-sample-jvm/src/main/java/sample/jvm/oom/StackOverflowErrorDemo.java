@@ -1,8 +1,8 @@
-package sample.jvm.oo;
+package sample.jvm.oom;
 
 /**
  * @author soyona
- * @Package sample.jvm.oo
+ * @Package sample.jvm.oom
  * @Desc:
  * JVM启动参数：-Xss2M
  *

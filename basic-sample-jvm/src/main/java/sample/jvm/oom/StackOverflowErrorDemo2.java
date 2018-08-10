@@ -1,8 +1,8 @@
-package sample.jvm.oo;
+package sample.jvm.oom;
 
 /**
  * @author soyona
- * @Package sample.jvm.oo
+ * @Package sample.jvm.oom
  * @Desc:
  * @date 2018/6/29 15:38
  */

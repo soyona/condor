@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Main-Class: sample.object.ObjectShallowSize
+Premain-Class: sample.object.ObjectShallowSize
+

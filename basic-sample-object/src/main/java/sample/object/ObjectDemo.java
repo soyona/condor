@@ -9,6 +9,8 @@ package sample.object;
 public class ObjectDemo {
     public static void main(String[] args) {
         Object o = new Object();
-
     }
 }
+
+
+//~ Formatted by Jindent --- http://www.jindent.com

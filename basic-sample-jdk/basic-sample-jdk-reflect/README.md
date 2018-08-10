@@ -78,7 +78,7 @@
 > for this reason,they are all instance methods,and access to the constructor of this factory is guarded by a 
 > security check,in similar style to sun.misc.Unsafe
 
-> [kanglei's code](./src/main/java/sample/reflectionfactory/ReflectionFactoryTest.java)
+> [kanglei's code](../../basic-sample-reflect/src/main/java/sample/reflectionfactory/ReflectionFactoryTest.java)
 
 ```text
 Constructor constructor = ReflectionFactory.getReflectionFactory().newConstructorForSerialization(Order.class,Object.class.getConstructor());

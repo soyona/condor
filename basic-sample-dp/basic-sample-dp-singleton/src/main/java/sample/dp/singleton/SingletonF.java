@@ -79,6 +79,13 @@ public class SingletonF {
         return instance;
     }
 
+    /**
+     * 提供给测试类 获取 Unsafe实例
+     * @return
+     */
+    public static Unsafe getU(){
+        return U;
+    }
     public static void main(String[] args) {
 //        SingletonF instance = SingletonF.getInstance();
         try {

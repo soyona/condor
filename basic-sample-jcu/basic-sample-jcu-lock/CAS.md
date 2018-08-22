@@ -1,6 +1,7 @@
 # CAS
 > [JDK8 CAS增强](http://ifeve.com/enhanced-cas-in-jdk8/)
 # 1. CAS 问题
+> [参考](https://blog.csdn.net/liu88010988/article/details/50799978)
 ## 1.1 CAS缺点-ABA
 ```text
 对于一个变量，值从A->B ,再从 B->A过程，CAS检测不到该过程；

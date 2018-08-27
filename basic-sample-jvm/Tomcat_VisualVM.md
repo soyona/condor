@@ -26,6 +26,7 @@ JAVA_OPTS="$JAVA_OPTS -Dcom.sun.management.jmxremote.ssl=false"
 
 
 # GC分析案例：
+> [CMS分析](https://plumbr.io/handbook/garbage-collection-algorithms-implementations/concurrent-mark-and-sweep)
 ## 配置
 ```text
 JAVA_OPTS="-server -Xms512m -Xmx512m -Xmn200m -XX:PermSize=100m -XX:MaxPermSize=128m -Xss512k -XX:+UseParNewGC -XX:+UseConcMarkSweepGC -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintHeapAtGC -Xloggc:../logs/gc.log"

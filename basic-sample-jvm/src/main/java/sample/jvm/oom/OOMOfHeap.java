@@ -5,6 +5,8 @@ package sample.jvm.oom;
  * @Package sample.jvm.oom
  * @Desc:
  * JVM 启动参数，堆最大内存设置：-Xmx50m
+ * 配置：
+ * -Xmx50m -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=./
  * @date 2018/6/29 12:30
  */
 public class OOMOfHeap {

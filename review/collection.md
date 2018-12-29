@@ -1,5 +1,5 @@
 # 集合
-## 1.HashMap
+## 1.HashMap(JDK7)
     参考：https://github.com/553899811/NewBie-Plan/blob/master/Java%E5%9F%BA%E7%A1%80/Java-%E5%AE%B9%E5%99%A8/Map/HashMap.md
     参考：http://www.importnew.com/20386.html
     数组+链表；
@@ -10,7 +10,16 @@
     红黑树转链表：链表节点长度较少到6时；
     JDK7：
     JDK8：引入红黑树
-## 2.ConcurrentHashMap
+### 1.1 put
+    判断是否需要扩容
+        如果size==阈值,并且插入位置有元素,则扩容2倍,重新计算下标
+    计算下标
+    放入链表头部
+### 1.2 get
+    计算下标,hash值,hash&(length-1)
+    遍历链表,找到相等的key(==||equals())
+    
+## 2.ConcurrentHashMap(JDK7)
     参考：http://www.importnew.com/23610.html
     参考：http://ifeve.com/concurrenthashmap/
     并发Map，采用分段锁（重入锁）

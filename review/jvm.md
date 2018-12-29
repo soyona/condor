@@ -23,12 +23,19 @@ JVM
    5) 由Eden区、From Space区向To Space区复制时，对象大小大于To Space可用内存，则把该对象转存到老年代，且老年代的可用内存小于该对象大小
 3. Young GC 会不会触发STW
     STW：Stop-The-World；
+    会引起.
     0）为什么会引起STW？
         
     1）JVM GC需要通过发起系统调用write()记录GC行为；
     2) write()调用可以被后台磁盘IO所阻塞
     3) 记录GC日志属于JVM停顿的一部分，因此write()调用的时候也会被记录到STW的时间内
 
+    Young GC步骤:
+        存活对象标注
+        存活对象从Edge区拷贝到Survivor 1，重置指针
+        清理Edge区和Survivor 2
+    在存活对象标注过程时STW,导致JVM停止响应;
+    
 4. CMS垃圾回收算法分为哪几个阶段
     参考：https://www.cnblogs.com/Leo_wl/p/5393300.html
    CMS： Concurrent Mark Sweep，针对老年代收集，会扫描新生代

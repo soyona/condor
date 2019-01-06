@@ -3,7 +3,7 @@
 ```text
 Exception in thread "main" java.lang.OutOfMemoryError: Java heap space
 	at sample.jvm.oom.OOMOfHeap.main(OOMOfHeap.java:14)
-	
+
 ```
 
 # OutOfMemoryError: Metaspace
@@ -22,7 +22,7 @@ Exception in thread "main" javassist.CannotCompileException: by java.lang.OutOfM
     at java.lang.ClassLoader.defineClass(ClassLoader.java:642)
     at sun.reflect.GeneratedMethodAccessor1.invoke(Unknown Source)
     at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-    at java.lang.reflect.Method.invoke(Method.java:497)
+    at java.lang.reflect.Method.invoke(`Method.java:497)
     at javassist.ClassPool.toClass2(ClassPool.java:1098)
     at javassist.ClassPool.toClass(ClassPool.java:1079)
 ```
@@ -67,4 +67,10 @@ Exception in thread "main" java.lang.OutOfMemoryError: unable to create new nati
 	at java.lang.Thread.start0(Native Method)
 	at java.lang.Thread.start(Thread.java:714)
 	at sample.jvm.oom.OOMOfUnableToCreateNewNativeThread.main(OOMOfUnableToCreateNewNativeThread.java:28)
+```
+
+# java.lang.OutOfMemoryError: Direct buffer memory
+> https://breezylee.iteye.com/blog/2039985
+```
+    unsafe.allocateMemory(1000);
 ```
